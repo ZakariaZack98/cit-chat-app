@@ -1,9 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { SignUpData } from "../../lib/lib";
 
 const SignUp = () => {
   const signUpData = SignUpData();
-  console.log(signUpData);
+  
+  const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleEmail = (input) => {
+    setEmail(input);
+  }
+  const handleFullName = (input) => {
+    setFullName(input);
+  }
+  const handlePassword = (input) => {
+    setPassword(input);
+  }
+
   return (
     <div className="signUpPage flex justify-center items-center">
       <div className="signUpLeft w-1/2 h-svh font-nunito flex justify-center items-center">
@@ -17,7 +31,7 @@ const SignUp = () => {
         <form action="#" className="py-5">
           {signUpData?.map((item) => {
             return (
-              <div class="relative my-6" key={item.name}>
+              <div className="relative my-6" key={item.name}>
                 <input
                   type={
                     item.name === "email"
@@ -39,6 +53,20 @@ const SignUp = () => {
                       : item.name === "password"
                       ? "password"
                       : "text"
+                  }
+                  value={
+                    item.name === "email"
+                      ? email
+                      : item.name === "password"
+                      ? password
+                      : fullName
+                  }
+                  onChange={
+                    item.name === "email"
+                      ? (e) => handleEmail(e.target.value)
+                      : item.name === "password"
+                      ? (e) => handlePassword(e.target.value)
+                      : (e) => handleFullName(e.target.value)
                   }
                   className="block px-7.5 pb-2.5 pt-4 w-[368px] h-[70px] text-xl text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-gray-500 focus:border-2 peer"
                   placeholder=" "
