@@ -1,1 +1,22 @@
 @import "tailwindcss";
+@import url('https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+:root {
+  --mainColor: #5F35F5;
+  --mainBgColor: #fcfcfc;
+  --authFontColor: #11175d;
+  --mainFontColor: #000000;
+}
+
+@theme {
+  --color-mainColor: var(--mainColor);
+  --color-mainBgColor: var(--mainBgColor);
+  --color-authFontColor: var(--authFontColor);
+  --color-mainFontColor: var(--mainFontColor);
+  --font-nunito: "Nunito", sans-serif;
+  --font-poppins: "Poppins", sans-serif;
+}
+
+.signUpRight {
+  background-image: url(https://www.figma.com/file/xAqnLLbELzY0B8MGlAs30i/image/763b40040837e37fca89fdbb9266a7d3119b2303);
+}
