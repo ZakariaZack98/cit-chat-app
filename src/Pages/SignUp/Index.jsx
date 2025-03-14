@@ -9,13 +9,31 @@ const SignUp = () => {
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState('');
+  const [nameError, setNameError] = useState('');
+  const [passwordError, setPasswordError] = useState('');
 
   //inout field change handler
   const handleChange = e => {
     const {name, value} = e.target;
-    name === 'email' ? setEmail(value) :
-    name === 'password' ? setPassword(value) :
-    setFullName(value);
+    if (name === 'email') {
+      setEmail(value);
+      setEmailError('');
+    } else if (name === 'password') {
+      setPassword(value);
+      setPasswordError('');
+    } else {
+      setFullName(value);
+      setNameError('');
+    };
+  }
+
+  //submit event handler
+  const handleSubmit = e => {
+    e.preventDefault();
+    if(!email) setEmailError('Email input must not be empty')
+    if(!fullName) setNameError('Please input your full name.')
+    if(!password) setPasswordError('please enter a valid password.')
   }
 
   return (
@@ -85,10 +103,18 @@ const SignUp = () => {
                       : "Full Name"
                   }
                 </label>
+                <p className="text-red-500">{item.name === 'email' && emailError
+                  ? emailError
+                  : item.name === 'fullName' && nameError
+                  ? nameError
+                  : item.name === 'password' && passwordError 
+                  ? passwordError
+                  : ''
+                  }</p>
               </div>
             );
           })}
-          <button type="submit" className="px-2 w-[368px] bg-mainColor rounded-4xl text-white h-[68px] font-semibold text-xl cursor-pointer">Sign Up</button>
+          <button type="submit" className="px-2 w-[368px] bg-mainColor rounded-4xl text-white h-[68px] font-semibold text-xl cursor-pointer" onClick={e => handleSubmit(e)}>Sign Up</button>
           <p className="text-center mt-8 text-authFontColor">Already have an account? <span className="text-mainColor cursor-pointer font-bold">Sign Up</span></p>
         </form>
         </div>
