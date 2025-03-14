@@ -2,12 +2,15 @@ import React, { useState } from "react";
 import { SignUpData } from "../../lib/lib";
 
 const SignUp = () => {
+  //importing signup component data from library
   const signUpData = SignUpData();
   
+  //state variables
   const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
 
+  //inout field change handler
   const handleChange = e => {
     const {name, value} = e.target;
     name === 'email' ? setEmail(value) :
@@ -26,7 +29,7 @@ const SignUp = () => {
           Free register and you can enjoy it
         </p>
         <form action="#" className="py-5">
-          {signUpData?.map((item) => {
+          {signUpData?.map((item) => {  //dynamically creating form elements based on the signup component data
             return (
               <div className="relative my-6" key={item.name}>
                 <input
