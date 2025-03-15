@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, CSSProperties } from "react";
 import { SignUpData } from "../../lib/lib";
 import {
   getAuth,
@@ -7,6 +7,13 @@ import {
   updateProfile,
 } from "firebase/auth";
 import { toast } from "react-toastify";
+import { PulseLoader } from "react-spinners";
+const override = {
+  display: "block",
+  margin: "0 auto",
+  borderColor: "red",
+};
+
 
 const SignUp = () => {
   const auth = getAuth();
@@ -20,6 +27,7 @@ const SignUp = () => {
   const [emailError, setEmailError] = useState("");
   const [nameError, setNameError] = useState("");
   const [passwordError, setPasswordError] = useState("");
+  const [loading, setLoading] = useState(false);
 
   //inout field change handler
   const handleChange = (e) => {
@@ -44,6 +52,7 @@ const SignUp = () => {
       if (!fullName) setNameError("Please input your full name.");
       if (!password) setPasswordError("please enter a valid password.");
     } else {
+      setLoading(true);
       createUserWithEmailAndPassword(auth, email, password)
         .then(() =>
           updateProfile(auth.currentUser, {
@@ -52,7 +61,7 @@ const SignUp = () => {
         )
         .then(() => sendEmailVerification(auth.currentUser))
         .then(() =>
-          toast.success("Resgistration Successful", {
+          toast.success("Resgistration Successful. Wellcome, " + fullName, {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -74,7 +83,7 @@ const SignUp = () => {
             progress: undefined,
             theme: "colored",
           })
-        );
+        ).finally(() => setLoading(false))
     }
   };
 
@@ -157,13 +166,26 @@ const SignUp = () => {
                 </div>
               );
             })}
-            <button
+            {loading ? (<button
+              type="submit"
+              className="px-2 w-[368px] bg-mainColor rounded-4xl text-white h-[68px] font-semibold text-xl cursor-pointer"
+              onClick={(e) => handleSubmit(e)}
+            >
+              <PulseLoader
+        color={'#ffffff'}
+        loading={loading}
+        cssOverride={override}
+        size={20}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+            </button>) : (<button
               type="submit"
               className="px-2 w-[368px] bg-mainColor rounded-4xl text-white h-[68px] font-semibold text-xl cursor-pointer"
               onClick={(e) => handleSubmit(e)}
             >
               Sign Up
-            </button>
+            </button>)}
             <p className="text-center mt-8 text-authFontColor">
               Already have an account?{" "}
               <span className="text-mainColor cursor-pointer font-bold">
