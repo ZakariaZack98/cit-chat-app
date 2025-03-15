@@ -47,9 +47,12 @@ const SignUp = () => {
       .then(() => updateProfile(auth.currentUser, {
         displayName: fullName
       }))
-      .then(() => console.log(auth.currentUser))
+      .then(() => sendEmailVerification(auth.currentUser))
+      .then(() => console.log('Check your mailbox for verification'))
     }
   };
+
+  console.log(auth.currentUser)
 
   return (
     <div className="signUpPage flex justify-center items-center">
