@@ -83,7 +83,7 @@ const SignUp = () => {
                     (e) => handleChange(e)
                   }
                   className="block px-7.5 pb-2.5 pt-4 w-[368px] h-[70px] text-xl text-gray-900 bg-transparent rounded-lg border-1 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-gray-500 focus:border-2 peer"
-                  placeholder=" "
+                  placeholder=" " required
                 />
                 <label
                   htmlFor={
