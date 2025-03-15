@@ -1,4 +1,4 @@
-import React, { useState, CSSProperties } from "react";
+import React, { useState} from "react";
 import { SignUpData } from "../../lib/lib";
 import {
   getAuth,
