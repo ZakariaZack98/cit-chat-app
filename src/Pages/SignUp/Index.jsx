@@ -6,6 +6,7 @@ import {
   sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
+import { toast } from "react-toastify";
 
 const SignUp = () => {
   const auth = getAuth();
@@ -44,15 +45,40 @@ const SignUp = () => {
       if (!password) setPasswordError("please enter a valid password.");
     } else {
       createUserWithEmailAndPassword(auth, email, password)
-      .then(() => updateProfile(auth.currentUser, {
-        displayName: fullName
-      }))
-      .then(() => sendEmailVerification(auth.currentUser))
-      .then(() => console.log('Check your mailbox for verification'))
+        .then(() =>
+          updateProfile(auth.currentUser, {
+            displayName: fullName,
+          })
+        )
+        .then(() => sendEmailVerification(auth.currentUser))
+        .then(() =>
+          toast.success("Resgistration Successful", {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          })
+        )
+        .catch((err) =>
+          toast.error("Registration Failed " + err, {
+            position: "top-right",
+            autoClose: 5000,
+            hideProgressBar: false,
+            closeOnClick: false,
+            pauseOnHover: true,
+            draggable: true,
+            progress: undefined,
+            theme: "colored",
+          })
+        );
     }
   };
 
-  console.log(auth.currentUser)
+  console.log(auth.currentUser);
 
   return (
     <div className="signUpPage flex justify-center items-center">
