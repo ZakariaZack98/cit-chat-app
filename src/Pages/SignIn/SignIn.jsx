@@ -1,20 +1,37 @@
 import React, { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 const SignIn = () => {
+  const auth = getAuth();
   //setting up states
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('')
+  const [loginInfo, setLoginInfo] = useState({email: '', password: ''});
 
   //input change handler
   const handleChange = e => {
-    e.target.name === 'email' ? setEmail(e.target.value) : setPassword(e.target.value)
+    const {name, value} = e.target;
+    setLoginInfo({
+      ...loginInfo,
+      [name]: value
+    })
   }
 
   //submit handler
+  /**
+   * todo: to handle login
+   * @param loginInfo
+   * return: void 
+   *  **/
   const handleSubmit = e => {
     e.preventDefault();
-    console.log(email, password);
+    const {email, password} = loginInfo;
+    signInWithEmailAndPassword(auth, email, password)
+    .then(userCred => {
+      console.log(userCred);
+      toast.success(`Welcome back, ${userCred.user.displayName}`)
+    })
+    .catch(err => toast.error('Login failed', err.message))
   }
 
 
@@ -29,14 +46,14 @@ const SignIn = () => {
           </div>
           <form action="#" className='flex flex-col gap-y-10 my-4'>
             <div className="relative">
-              <input type="email" id='email' name='email' value={email} onChange={e => handleChange(e)} className="block px-7.5 pb-2.5 pt-4 w-[368px] h-[70px] text-xl text-gray-900 bg-transparent rounded-lg border-1 border-gray-200 appearance-none  dark:focus:border-gray-200 focus:outline-none focus:ring-0 focus:border-gray-500 focus:border-2 peer" required/>
+              <input type="email" id='email' name='email' value={loginInfo.email} onChange={e => handleChange(e)} className="block px-7.5 pb-2.5 pt-4 w-[368px] h-[70px] text-xl text-gray-900 bg-transparent rounded-lg border-1 border-gray-200 appearance-none  dark:focus:border-gray-200 focus:outline-none focus:ring-0 focus:border-gray-500 focus:border-2 peer" required/>
               <label htmlFor="email" className="absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform translate-y-3 top-2 z-10 origin-[0] bg-white px-8 peer-focus:px-2 peer-focus:text-gray-400 peer-focus:dark:text-gray-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-80 peer-focus:ms-5 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Your Email</label>
             </div>
             <div className="relative">
-              <input type="password" id='password' name='password' value={password} onChange={e => handleChange(e)} className="block px-7.5 pb-2.5 pt-4 w-[368px] h-[70px] text-xl text-gray-900 bg-transparent rounded-lg border-1 border-gray-200 appearance-none dark:focus:border-gray-200 focus:outline-none focus:ring-0 focus:border-gray-500 focus:border-2 peer" required/>
+              <input type="password" id='password' name='password' value={loginInfo.password} onChange={e => handleChange(e)} className="block px-7.5 pb-2.5 pt-4 w-[368px] h-[70px] text-xl text-gray-900 bg-transparent rounded-lg border-1 border-gray-200 appearance-none dark:focus:border-gray-200 focus:outline-none focus:ring-0 focus:border-gray-500 focus:border-2 peer" required/>
               <label htmlFor="password" className="absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform translate-y-3 top-2 z-10 origin-[0] bg-white px-8 peer-focus:px-2 peer-focus:text-gray-400 peer-focus:dark:text-gray-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-80 peer-focus:ms-5 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Password</label>
             </div>
-            <button className='w-106 h-20 bg-mainColor rounded-lg font-semibold text-white text-xl cursor-pointer' onClick={e => handleSubmit(e)}>Login to continue</button>
+            <button type='submit' className='w-106 h-20 bg-mainColor rounded-lg font-semibold text-white text-xl cursor-pointer' onClick={e => handleSubmit(e)}>Login to continue</button>
           </form>
           <p className="text-center mt-8 text-authFontColor">
               Don't have an account?{" "}
