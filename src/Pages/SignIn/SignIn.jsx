@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { getDatabase, ref, set } from 'firebase/database';
 import { toast } from 'react-toastify';
 
 const SignIn = () => {
   const auth = getAuth();
+  const db = getDatabase();
 
   //setting up states
   const [loginInfo, setLoginInfo] = useState({email: '', password: ''});
@@ -32,6 +34,11 @@ const SignIn = () => {
       console.log(cred);
       const token = cred.accessToken;
       const user = credInfo.user;
+      set(ref(db, 'users/'), {
+        username: user.displayName,
+        email: user.email,
+        profile_picture : user.photoURL,
+      });
       toast.success(`Welcome back, ${user.displayName}`);
     })
     .catch((error) => {
