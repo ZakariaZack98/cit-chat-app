@@ -3,6 +3,7 @@ import { FcGoogle } from 'react-icons/fc'
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { getDatabase, ref, set } from 'firebase/database';
 import { toast } from 'react-toastify';
+import { Link } from 'react-router-dom';
 
 const SignIn = () => {
   const auth = getAuth();
@@ -95,9 +96,9 @@ const SignIn = () => {
           </form>
           <p className="text-center mt-8 text-authFontColor">
               Don't have an account?{" "}
-              <span className="text-mainColor cursor-pointer font-bold">
+              <Link to={'/signup'} className="text-mainColor cursor-pointer font-bold">
                 Sign Up
-              </span>
+              </Link>
             </p>
         </div>
       </div>

@@ -1,4 +1,5 @@
 import React, { useState} from "react";
+import { Link } from "react-router-dom";
 import { SignUpData } from "../../lib/lib";
 import {
   getAuth,
@@ -188,9 +189,9 @@ const SignUp = () => {
             </button>)}
             <p className="text-center mt-8 text-authFontColor">
               Already have an account?{" "}
-              <span className="text-mainColor cursor-pointer font-bold">
+              <Link to={'/signin'} className="text-mainColor cursor-pointer font-bold">
                 Sign In
-              </span>
+              </Link>
             </p>
           </form>
         </div>
