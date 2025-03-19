@@ -1,29 +1,45 @@
 import React, { useState } from 'react'
+import { Link, NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
 import { IoChatbubbleEllipsesSharp, IoExit, IoHomeOutline, IoNotificationsOutline, IoSettingsOutline } from 'react-icons/io5';
 import { LuCloudUpload } from 'react-icons/lu'
 
 const Sidebar = () => {
   const [mouseOnDP, setMouseOnDP] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  const navIcons = [
+  const navItems = [
     {
       id: 1,
+      path: '/',
       icon: <IoHomeOutline/>
     },
     {
       id: 2,
+      path: '/chat',
       icon: <IoChatbubbleEllipsesSharp />
     },
     {
       id: 3,
+      path: '/notifications',
       icon: <IoNotificationsOutline />
     },
     {
       id: 4,
+      path: '/setting',
       icon: <IoSettingsOutline />
     },
   
   ]
+
+  /**
+   * TODO: NAVIGATE TO DIFFERENT TABS/PATH
+   * @param Path
+   * return: null
+   * */ 
+  const handleNav = path => {
+    navigate(path);
+  }
 
   
 
@@ -37,16 +53,16 @@ const Sidebar = () => {
       </div>
       <div className="nav w-full flex flex-col justify-center items-center">
         {
-          navIcons?.map(item => (
-          <span key={item.id} className='text-white text-[44px] w-40 h-22 flex justify-center items-center rounded-2xl my-3 cursor-pointer'>
+          navItems?.map(item => (
+          <div key={item.id} className={location.pathname === item.path ? 'active text-[44px] w-40 h-22 flex justify-center items-center rounded-2xl my-3  cursor-pointer' : 'text-white text-[44px] w-40 h-22 flex justify-center items-center rounded-2xl my-3 hover:bg-white hover:opacity-60 hover:text-mainColor cursor-pointer'} onClick={() => handleNav(item.path)}>
             {item.icon}
-          </span>))
+          </div>))
         }
       </div>
       <div className="signOut">
-        <span className='text-white text-[44px] w-40 h-22 flex justify-center items-center rounded-2xl my-3 cursor-pointer'>
+        <Link to={'/signin'} className='text-white text-[44px] w-40 h-22 flex justify-center items-center rounded-2xl my-3  hover:bg-white hover:text-mainColor hover:opacity-60 cursor-pointer'>
           <IoExit />
-        </span>
+        </Link>
       </div>
     </div>
   )

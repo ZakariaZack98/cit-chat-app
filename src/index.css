@@ -24,3 +24,8 @@
 .signInRight {
   background-image: url(https://www.figma.com/file/xAqnLLbELzY0B8MGlAs30i/image/06090706cb57a7ccfb693210bd82da8169003d0d);
 }
+
+.active {
+  background-color: white;
+  color: var(--mainColor);
+}
