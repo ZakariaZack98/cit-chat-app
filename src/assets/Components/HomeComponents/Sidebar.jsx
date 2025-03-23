@@ -60,7 +60,7 @@ const Sidebar = () => {
         }
       </div>
       <div className="signOut">
-        <Link to={'/signin'} className='text-white text-[44px] w-40 h-22 flex justify-center items-center rounded-2xl mt-3  hover:bg-white hover:text-mainColor hover:opacity-60 cursor-pointer'>
+        <Link to={'/signin'} className='text-white text-[44px] w-[7dvw] h-[10dvh] flex justify-center items-center rounded-2xl my-[5%] hover:bg-white hover:opacity-60 hover:text-mainColor cursor-pointer'>
           <IoExit />
         </Link>
       </div>

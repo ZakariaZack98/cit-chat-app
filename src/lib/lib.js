@@ -1,4 +1,4 @@
-export  const SignUpData = () => {
+export const SignUpData = () => {
   return [
     {id: 1, name: 'email'},
     {id: 2, name: 'fullName'},
