@@ -84,3 +84,43 @@ export const friendsData = () => {
     },
   ]
 }
+
+export const userListData = () => {
+  return [
+    {
+      id: 1,
+      imgUrl: 'https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg',
+      name: 'Ryan Holliday',
+      lastSeen: `3 min ago`,
+      btnText: '+'
+    },
+    {
+      id: 2,
+      imgUrl: 'https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg',
+      name: 'Samuel Anderson',
+      lastSeen: `13 min ago`,
+      btnText: '+'
+    },
+    {
+      id: 1,
+      imgUrl: 'https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg',
+      name: 'Adam Smith',
+      lastSeen: `50 min ago`,
+      btnText: '+'
+    },
+    {
+      id: 1,
+      imgUrl: 'https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg',
+      name: 'Aiden Clarke',
+      lastSeen: `3 hours ago`,
+      btnText: '+'
+    },
+    {
+      id: 1,
+      imgUrl: 'https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg',
+      name: 'Nitish K.',
+      lastSeen: `6:33 AM`,
+      btnText: '+'
+    },
+  ]
+}

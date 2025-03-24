@@ -29,7 +29,7 @@ const GroupList = () => {
           {
             listData?.map((item, idx) => {
               return (
-                <div key={item.id} className={`${idx < listData.length - 1 ? 'border-b-gray-300 border-b-[1px]' : ''} py-1`}>
+                <div key={item.id} className={`${idx < listData.length - 1 ? 'border-b-gray-300 border-b-[1px]' : ''} py-2 cursor-pointer`}>
                   <PersonCardWBtn avatar={item.imgUrl} name={item.name} subText={item.LastMsg} btnText={item.btnText}/>
                 </div>
               )
