@@ -1,30 +1,11 @@
 import React from "react";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { friendsData } from "../../../lib/componentsData";
-import PersonCardWTxt from "../CommonComponents/PersonCardWTxt";
+import GroupCard from "../CommonComponents/GroupCard";
 
 const Friends = () => {
-  const chatData = friendsData();
+  const listData = friendsData();
   return (
-    <div className="p-3 rounded-xl shadow-lg h-full">
-      <div className="flex justify-between items-center">
-        <p className="font-semibold">Friends</p>
-        <span className="cursor-pointer">
-          <BsThreeDotsVertical />
-        </span>
-      </div>
-      <div className="groups h-[90%] overflow-y-scroll" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-        {chatData?.map((item, idx) => {
-          return (
-            <div
-              key={item.id}
-              className={`${idx < chatData.length - 1 ? "border-b-gray-300 border-b-[1px]" : ""} py-2 cursor-pointer`}>
-              <PersonCardWTxt avatar={item.imgUrl} name={item.name} subText={item.lastMsg} sideText={item.sentAt} />
-            </div>
-          );
-        })}
-      </div>
-    </div>
+    <GroupCard cardTitle={'Friends'} listData={listData}/>
   );
 };
 

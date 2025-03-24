@@ -3,6 +3,7 @@ import { FaSearch } from "react-icons/fa";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { groupListData } from "../../../lib/componentsData";
 import PersonCardWBtn from "../CommonComponents/PersonCardWBtn";
+import GroupCard from "../CommonComponents/GroupCard";
 
 const GroupList = () => {
   const listData = groupListData();
@@ -13,26 +14,8 @@ const GroupList = () => {
         <input type="text" placeholder="Search..." className="flex-grow outline-none text-sm text-gray-700" />
         <BsThreeDotsVertical className="text-gray-500 ml-2" />
       </div>
-      <div className="list shadow-lg h-[85%] rounded-xl p-3">
-        <div className="flex justify-between items-center">
-          <p className="font-semibold">Group List</p>
-          <span className="cursor-pointer">
-            <BsThreeDotsVertical />
-          </span>
-        </div>
-        <div className="groups h-[90%] overflow-y-scroll" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-          {listData?.map((item, idx) => {
-            return (
-              <div
-                key={item.id}
-                className={`${
-                  idx < listData.length - 1 ? "border-b-gray-300 border-b-[1px]" : ""
-                } py-2 cursor-pointer`}>
-                <PersonCardWBtn avatar={item.imgUrl} name={item.name} subText={item.LastMsg} btnText={item.btnText} />
-              </div>
-            );
-          })}
-        </div>
+      <div className="groupCard h-[85%]">
+        <GroupCard cardTitle={'Group List'} listData={listData} btnText={'Join'} withBtn={true}/>
       </div>
     </div>
   );

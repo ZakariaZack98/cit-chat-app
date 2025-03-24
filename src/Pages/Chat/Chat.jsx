@@ -18,7 +18,7 @@ const Chat = () => {
           <Friends />
         </div>
       </div>
-      <div className="right w-[60%] h-full shadow-xl rounded-xl px-7 py-4 flex flex-col justify-between">
+      <div className="right w-[70%] h-full shadow-xl rounded-xl px-7 py-4 flex flex-col justify-between bg-white">
         <UserPart avatar={convUser.imgUrl} name={convUser.name} isActive={convUser.isActive} lastSeen={convUser.lastSeen} />
         <div className="inputPart flex items-center gap-x-2 mt-4 pt-5 pb-1 border-t-gray-300 border-t-[1px]">
           <div className="flex items-center bg-[#f1f1f1] rounded-lg flex-grow px-3 py-2">

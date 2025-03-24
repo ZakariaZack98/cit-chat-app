@@ -25,6 +25,10 @@
   background-image: url(../src/assets/images/signup.jpeg);
 }
 
+.rootlayout {
+  background-image: url(../src/assets/images/bg.jpg);
+}
+
 .active {
   background-color: white;
   color: var(--mainColor);
