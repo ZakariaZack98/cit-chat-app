@@ -196,7 +196,7 @@ const SignUp = () => {
           </form>
         </div>
       </div>
-      <div className="signUpRight w-1/2 h-svh bg-red-500 bg-center bg-cover bg-no-repeat"></div>
+      <div className="signUpRight w-1/2 h-svh bg-center bg-cover bg-no-repeat"></div>
     </div>
   );
 };

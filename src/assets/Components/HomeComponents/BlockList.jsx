@@ -8,7 +8,7 @@ const BlockList = () => {
   return (
     <div className="p-3 rounded-xl shadow-lg h-full">
       <div className="flex justify-between items-center">
-        <p className="font-semibold">Friend Requests</p>
+        <p className="font-semibold">Blocked Users</p>
         <span className="cursor-pointer">
           <BsThreeDotsVertical />
         </span>
