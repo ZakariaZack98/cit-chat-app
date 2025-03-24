@@ -53,7 +53,7 @@ const Sidebar = () => {
       sources: ['local', 'url', 'camera', 'dropbox', 'unsplash', 'image_search', 'google_drive', 'shutterstock']
     }, (err, result) => {
       if(err) throw new Error('upload error');
-      console.log(result);
+      console.log(result.info.secure_url);
     })
   }
 
