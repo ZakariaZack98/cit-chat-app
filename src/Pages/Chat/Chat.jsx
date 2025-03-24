@@ -30,7 +30,7 @@ const Chat = () => {
             <FaRegSmile className="text-black opacity-50 cursor-pointer mx-2" />
             <MdPhoto className="text-black opacity-50 cursor-pointer" />
           </div>
-          <button className="w-10 h-9 bg-mainColor rounded-lg flex items-center justify-center text-white">
+          <button className="w-10 h-9 bg-mainColor rounded-lg flex items-center justify-center text-white cursor-pointer">
             <FaPaperPlane />
           </button>
         </div>
