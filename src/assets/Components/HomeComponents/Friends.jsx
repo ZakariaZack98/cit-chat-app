@@ -13,17 +13,17 @@ const Friends = () => {
           <BsThreeDotsVertical />
         </span>
       </div>
-      <div className="groups h-[90%] overflow-y-scroll" style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
-          {
-            chatData?.map((item, idx) => {
-              return (
-                <div key={item.id} className={`${idx < chatData.length - 1 ? 'border-b-gray-300 border-b-[1px]' : ''} py-2 cursor-pointer`}>
-                  <PersonCardWTxt avatar={item.imgUrl} name={item.name} subText={item.lastMsg} sideText={item.sentAt}/>
-                </div>
-              )
-            })
-          }
-        </div>
+      <div className="groups h-[90%] overflow-y-scroll" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+        {chatData?.map((item, idx) => {
+          return (
+            <div
+              key={item.id}
+              className={`${idx < chatData.length - 1 ? "border-b-gray-300 border-b-[1px]" : ""} py-2 cursor-pointer`}>
+              <PersonCardWTxt avatar={item.imgUrl} name={item.name} subText={item.lastMsg} sideText={item.sentAt} />
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
