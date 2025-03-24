@@ -5,6 +5,7 @@ import Friends from '../../assets/Components/HomeComponents/Friends'
 import UserList from '../../assets/Components/HomeComponents/UserList'
 import FriendRequests from '../../assets/Components/HomeComponents/FriendRequests'
 import Group from '../../assets/Components/HomeComponents/Group'
+import BlockList from '../../assets/Components/HomeComponents/BlockList'
 
 const Home = () => {
   return (
@@ -23,6 +24,9 @@ const Home = () => {
       </div>
       <div className='w-[32%] h-[49%]'>
         <Group/>
+      </div>
+      <div className='w-[32%] h-[49%]'>
+        <BlockList/>
       </div>
     </div>
   )

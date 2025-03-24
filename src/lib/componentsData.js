@@ -204,3 +204,50 @@ export const groupData = () => {
     },
   ]
 }
+
+export const blockListData = () => {
+  return [
+    {
+      id: 1,
+      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      name: 'Swati Sharma',
+      lastSeen: '2 month ago',
+    },
+    {
+      id: 2,
+      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      name: 'Paul Cunninghum',
+      lastSeen: '3 month ago',
+    },
+    {
+      id: 3,
+      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      name: 'Sammuel S. Kennedy',
+      lastSeen: '6 month ago',
+    },
+    {
+      id: 4,
+      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      name: 'Levi Abe',
+      lastSeen: '7 month ago',
+    },
+    {
+      id: 5,
+      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      name: 'Jane Doe',
+      lastSeen: '7 month ago',
+    },
+    {
+      id: 6,
+      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      name: 'Aditwa Banarjee',
+      lastSeen: 'a year ago',
+    },
+    {
+      id: 7,
+      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      name: 'Maxi Mo',
+      lastSeen: 'a year ago',
+    },
+  ]
+}
