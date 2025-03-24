@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import SignIn from "./Pages/SignIn/SignIn";
 import RootLayout from "./assets/Components/RootLayout/RootLayout";
 import Home from "./Pages/Home/Index";
+import Chat from "./Pages/Chat/Chat";
 
 const App = () => {
   return (
@@ -13,7 +14,7 @@ const App = () => {
         <Route path="/signin" element={<SignIn />} />
         <Route path="/" element={<RootLayout />}>
           <Route index element={<Home />} />
-          <Route path="/chat" element={"This is chat page"} />
+          <Route path="/chat" element={<Chat/>} />
           <Route path="/notifications" element={"This is notifications page"} />
           <Route path="/setting" element={"This is setting page"} />
         </Route>

@@ -251,3 +251,12 @@ export const blockListData = () => {
     },
   ]
 }
+
+export const activeConvUserData = () => {
+  return {
+    name: 'Jessica McFarlen',
+    imgUrl: 'https://img.freepik.com/free-photo/closeup-young-female-professional-making-eye-contact-against-colored-background_662251-651.jpg',
+    isActive: true,
+    lastSeen: 'online',
+  }
+}

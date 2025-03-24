@@ -3,12 +3,12 @@ import { FcGoogle } from 'react-icons/fc'
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
 import { getDatabase, ref, set } from 'firebase/database';
 import { toast } from 'react-toastify';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const SignIn = () => {
   const auth = getAuth();
   const db = getDatabase();
-
+  const navigate = useNavigate();
   //setting up states
   const [loginInfo, setLoginInfo] = useState({email: '', password: ''});
 
@@ -30,16 +30,17 @@ const SignIn = () => {
   const handleGoogleLogin = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-    .then(credInfo => {
-      const cred = GoogleAuthProvider.credentialFromResult(credInfo);
+    .then(result => {
+      const cred = GoogleAuthProvider.credentialFromResult(result);
       console.log(cred);
       const token = cred.accessToken;
-      const user = credInfo.user;
+      const user = result.user;
       set(ref(db, 'users/'), {
         username: user.displayName,
         email: user.email,
         profile_picture : user.photoURL,
       });
+      navigate('/')
       toast.success(`Welcome back, ${user.displayName}`);
     })
     .catch((error) => {
@@ -69,6 +70,7 @@ const SignIn = () => {
     .then(userCred => {
       console.log(userCred);
       toast.success(`Welcome back, ${userCred.user.displayName}`)
+      navigate('/')
     })
     .catch(err => toast.error('Login failed', err.message))
   }
