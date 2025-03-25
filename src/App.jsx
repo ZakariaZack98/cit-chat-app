@@ -7,6 +7,7 @@ import Home from "./Pages/Home/Index";
 import Chat from "./Pages/Chat/Chat";
 import Notifications from "./Pages/Notifications/Notifications";
 import Settings from "./Pages/Settings/Settings";
+import Error from "./Pages/Error/Error";
 
 const App = () => {
   return (
@@ -20,6 +21,7 @@ const App = () => {
           <Route path="/notifications" element={<Notifications/>} />
           <Route path="/settings" element={<Settings/>} />
         </Route>
+        <Route path="*" element={<Error/>}/>
       </Routes>
     </BrowserRouter>
   );
