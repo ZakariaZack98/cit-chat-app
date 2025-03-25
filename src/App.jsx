@@ -5,6 +5,7 @@ import SignIn from "./Pages/SignIn/SignIn";
 import RootLayout from "./assets/Components/RootLayout/RootLayout";
 import Home from "./Pages/Home/Index";
 import Chat from "./Pages/Chat/Chat";
+import Notifications from "./Pages/Notifications/Notifications";
 
 const App = () => {
   return (
@@ -15,7 +16,7 @@ const App = () => {
         <Route path="/" element={<RootLayout />}>
           <Route index element={<Home />} />
           <Route path="/chat" element={<Chat/>} />
-          <Route path="/notifications" element={"This is notifications page"} />
+          <Route path="/notifications" element={<Notifications/>} />
           <Route path="/setting" element={"This is setting page"} />
         </Route>
       </Routes>
