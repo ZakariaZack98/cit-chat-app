@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Link, NavLink, useLocation, useNavigate, useParams } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { IoChatbubbleEllipsesSharp, IoExit, IoHomeOutline, IoNotificationsOutline, IoSettingsOutline } from 'react-icons/io5';
 import { LuCloudUpload } from 'react-icons/lu'
-import { Cloudinary } from '@cloudinary/url-gen/index';
 
 const Sidebar = () => {
   const [mouseOnDP, setMouseOnDP] = useState(false);
@@ -43,8 +42,8 @@ const Sidebar = () => {
   }
 
   // TODO: UPLOAD PROFILE PICTURE VIA CLOUDINARY UPLOAD WIDGET
-  const handleProfilePic = () => {
-    cloudinary.openUploadWidget({
+  const handleProfilePic = async () => {
+    await cloudinary.openUploadWidget({
       cloudName: 'dubcsgtfg',
       uploadPreset: 'cit-chat-app',
       googleAPIKey: '',
@@ -53,7 +52,9 @@ const Sidebar = () => {
       sources: ['local', 'url', 'camera', 'dropbox', 'unsplash', 'image_search', 'google_drive', 'shutterstock']
     }, (err, result) => {
       if(err) throw new Error('upload error');
-      console.log(result.info.secure_url);
+      if(result.info.secure_url) {
+        console.log(result.info.secure_url);
+      }
     })
   }
 

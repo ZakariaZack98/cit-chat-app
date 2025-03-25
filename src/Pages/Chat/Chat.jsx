@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import GroupList from "../../assets/Components/HomeComponents/GroupList";
 import Friends from "../../assets/Components/HomeComponents/Friends";
-import { activeConvUserData } from "../../lib/componentsData";
+import { activeConvUserData, getChatData } from "../../lib/componentsData";
 import UserPart from "../../assets/Components/ChatComponents/UserPart";
 import { FaPaperPlane, FaRegSmile } from "react-icons/fa";
 import { MdPhoto } from "react-icons/md";
+import ChatFeed from "../../assets/Components/ChatComponents/ChatFeed";
 
 const Chat = () => {
   const [convUser, setConvUser] = useState(activeConvUserData());
+  const listData = getChatData(); //DUMMY FETCHING CHAT DATA
   return (
     <div className="w-full h-full flex gap-x-5">
       <div className="left w-[30%] h-full flex flex-col justify-between">
@@ -20,6 +22,9 @@ const Chat = () => {
       </div>
       <div className="right w-[70%] h-full shadow-xl rounded-xl px-7 py-4 flex flex-col justify-between bg-white">
         <UserPart avatar={convUser.imgUrl} name={convUser.name} isActive={convUser.isActive} lastSeen={convUser.lastSeen} />
+        <div className="chatFeed h-[70%] overflow-scroll" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+          <ChatFeed chatData={listData}/>
+        </div>
         <div className="inputPart flex items-center gap-x-2 mt-4 pt-5 pb-1 border-t-gray-300 border-t-[1px]">
           <div className="flex items-center bg-[#f1f1f1] rounded-lg flex-grow px-3 py-2">
             <input

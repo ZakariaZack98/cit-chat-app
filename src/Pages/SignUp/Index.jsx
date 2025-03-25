@@ -1,5 +1,5 @@
 import React, { useState} from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { SignUpData } from "../../lib/lib";
 import {
   getAuth,
@@ -9,6 +9,7 @@ import {
 } from "firebase/auth";
 import { toast } from "react-toastify";
 import { PulseLoader } from "react-spinners";
+import { getDatabase, set, ref, push } from "firebase/database";
 const override = {
   display: "block",
   margin: "0 auto",
@@ -18,6 +19,8 @@ const override = {
 
 const SignUp = () => {
   const auth = getAuth();
+  const db = getDatabase();
+  const navigate = useNavigate()
   //importing signup component data from library
   const signUpData = SignUpData();
 
@@ -60,8 +63,17 @@ const SignUp = () => {
             displayName: fullName,
           })
         )
+        .then(() => {
+          const dbRef = ref(db, 'users/')
+          set(push(dbRef), {
+            userName: auth.currentUser.displayName || fullName,
+            email: auth.currentUser.email || email,
+            profile_picture: auth.currentUser.photoURL || 'https://img.freepik.com/free-photo/closeup-young-female-professional-making-eye-contact-against-colored-background_662251-651.jpg',
+            userId: auth.currentUser.uid
+          })
+        })
         .then(() => sendEmailVerification(auth.currentUser))
-        .then(() =>
+        .then(() => {
           toast.success("Resgistration Successful. Wellcome, " + fullName, {
             position: "top-right",
             autoClose: 5000,
@@ -71,7 +83,9 @@ const SignUp = () => {
             draggable: true,
             progress: undefined,
             theme: "colored",
-          })
+          });
+          navigate('/')
+        }
         )
         .catch((err) =>
           toast.error("Registration Failed " + err, {

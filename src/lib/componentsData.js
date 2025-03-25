@@ -260,3 +260,61 @@ export const activeConvUserData = () => {
     lastSeen: 'online',
   }
 }
+
+export const getChatData = () => {
+  return {
+    chatId: 10001,
+    msgCollection: [
+      {
+        message: 'Hello John! 👋',
+        senderId: '0kb345das7a9dnasd7aosd9',
+        sentAt: '12:34 PM'
+      },
+      {
+        message: 'How are you doing?',
+        senderId: '0kb345das7a9dnasd7aosd9',
+        sentAt: '12:35 PM'
+      },
+      {
+        message: 'Hello Jessica! Good to hear from you! ✋😃',
+        senderId: 'CurrentUserID',
+        sentAt: '12:37 PM'
+      },
+      {
+        message: 'How is your project going?',
+        senderId: 'CurrentUserID',
+        sentAt: '12:37 PM'
+      },
+      {
+        message: 'Great! So far so good.',
+        senderId: '0kb345das7a9dnasd7aosd9',
+        sentAt: '12:40 PM'
+      },
+      {
+        message: `That's great to hear!`,
+        senderId: 'CurrentUserID',
+        sentAt: '12:40 min ago'
+      },
+      {
+        message: `How's your mother doing`,
+        senderId: 'CurrentUserID',
+        sentAt: '8 min ago'
+      },
+      {
+        message: `She's recovering well`,
+        senderId: '0kb345das7a9dnasd7aosd9',
+        sentAt: '3 min ago'
+      },
+      {
+        message: `Still have a little fever tho 😔😔`,
+        senderId: '0kb345das7a9dnasd7aosd9',
+        sentAt: '3 min ago'
+      },
+      {
+        message: `Don't worry she'll be ok.`,
+        senderId: 'CurrentUserID',
+        sentAt: 'now'
+      },
+    ]
+  }
+}

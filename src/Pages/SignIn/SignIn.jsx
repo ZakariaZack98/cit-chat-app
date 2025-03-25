@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
 import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { getDatabase, ref, set } from 'firebase/database';
+import { getDatabase, push, ref, set } from 'firebase/database';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -30,12 +30,11 @@ const SignIn = () => {
   const handleGoogleLogin = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
-    .then(result => {
-      const cred = GoogleAuthProvider.credentialFromResult(result);
-      console.log(cred);
-      const token = cred.accessToken;
-      const user = result.user;
-      set(ref(db, 'users/'), {
+    .then(userInfo => {
+      const {user} = userInfo;
+      const userRef = ref(db, 'users/')
+      set(push(userRef), {
+        userId: user.uid,
         username: user.displayName,
         email: user.email,
         profile_picture : user.photoURL,
