@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { IoChatbubbleEllipsesSharp, IoExit, IoHomeOutline, IoNotificationsOutline, IoSettingsOutline } from 'react-icons/io5';
 import { LuCloudUpload } from 'react-icons/lu'
+import { getAuth } from 'firebase/auth';
 
 const Sidebar = () => {
   const [mouseOnDP, setMouseOnDP] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const auth = getAuth();
 
   const navItems = [
     {
@@ -26,7 +28,7 @@ const Sidebar = () => {
     },
     {
       id: 4,
-      path: '/setting',
+      path: '/settings',
       icon: <IoSettingsOutline />
     },
   
@@ -82,10 +84,14 @@ const Sidebar = () => {
           </div>))
         }
       </div>
-      <div className="signOut">
-        <Link to={'/signin'} className='text-white text-[44px] w-[7dvw] h-[10dvh] flex justify-center items-center rounded-2xl my-[5%] hover:bg-white hover:opacity-60 hover:text-mainColor cursor-pointer'>
+      <div className="signOut" onClick={() => {
+          signOut(auth);
+          navigate('/signin')
+        }}>
+        <div className='text-white text-[44px] w-[7dvw] h-[10dvh] flex justify-center items-center rounded-2xl my-[5%] hover:bg-white hover:opacity-60 hover:text-mainColor cursor-pointer'
+        >
           <IoExit />
-        </Link>
+        </div>
       </div>
     </div>
   )

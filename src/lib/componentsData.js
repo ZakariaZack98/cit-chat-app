@@ -1,3 +1,6 @@
+import { CgDarkMode } from "react-icons/cg";
+import { MdAddPhotoAlternate, MdChat, MdOutlineCreate, MdOutlineDelete, MdOutlineHelp, MdOutlinePassword } from "react-icons/md";
+
 export const groupListData = () => {
   return [
     {
@@ -266,51 +269,61 @@ export const getChatData = () => {
     chatId: 10001,
     msgCollection: [
       {
+        id: 1,
         message: 'Hello John! 👋',
         senderId: '0kb345das7a9dnasd7aosd9',
         sentAt: '12:34 PM'
       },
       {
+        id: 2,
         message: 'How are you doing?',
         senderId: '0kb345das7a9dnasd7aosd9',
         sentAt: '12:35 PM'
       },
       {
+        id: 3,
         message: 'Hello Jessica! Good to hear from you! ✋😃',
         senderId: 'CurrentUserID',
         sentAt: '12:37 PM'
       },
       {
+        id: 4,
         message: 'How is your project going?',
         senderId: 'CurrentUserID',
         sentAt: '12:37 PM'
       },
       {
+        id: 5,
         message: 'Great! So far so good.',
         senderId: '0kb345das7a9dnasd7aosd9',
         sentAt: '12:40 PM'
       },
       {
+        id: 6,
         message: `That's great to hear!`,
         senderId: 'CurrentUserID',
         sentAt: '12:40 min ago'
       },
       {
+        id: 7,
         message: `How's your mother doing`,
         senderId: 'CurrentUserID',
         sentAt: '8 min ago'
       },
       {
+        id: 8,
         message: `She's recovering well`,
         senderId: '0kb345das7a9dnasd7aosd9',
         sentAt: '3 min ago'
       },
       {
+        id: 9,
         message: `Still have a little fever tho 😔😔`,
         senderId: '0kb345das7a9dnasd7aosd9',
         sentAt: '3 min ago'
       },
       {
+        id: 10,
         message: `Don't worry she'll be ok.`,
         senderId: 'CurrentUserID',
         sentAt: 'now'
@@ -352,6 +365,51 @@ export const getNotificationData = () => {
     {
       id:8,
       message: 'So yes, the alcohol (ethanol) in hand sanitizers can be absorbed through the skin, but no, it would not cause intoxication.'
+    },
+  ]
+}
+
+export const getProfileSettingsData = () => {
+  return [
+    {
+      id: 1,
+      name: 'Edit Profile Name',
+      icon: MdOutlineCreate
+    },
+    {
+      id: 2,
+      name: 'Edit Profile Status Info',
+      icon: MdChat
+    },
+    {
+      id: 3,
+      name: 'Edit Profile Photo',
+      icon: MdAddPhotoAlternate
+    },
+    {
+      id: 4,
+      name: 'Help',
+      icon: MdOutlineHelp
+    },
+  ]
+}
+
+export const getAccountSettingsData = () => {
+  return [
+    {
+      id: 1,
+      name: 'Change Password',
+      icon: MdOutlinePassword
+    },
+    {
+      id: 2,
+      name: 'Chnage Theme',
+      icon: CgDarkMode
+    },
+    {
+      id: 3,
+      name: 'Delete Account',
+      icon: MdOutlineDelete
     },
   ]
 }

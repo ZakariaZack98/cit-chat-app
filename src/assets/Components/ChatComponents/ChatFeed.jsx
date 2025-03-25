@@ -9,7 +9,7 @@ const ChatFeed = ({chatData}) => {
     <>
       {msgCollection?.map(item => {
         // ? IF senderID and current user's id matches it's a sent message otherwise it's a received message
-        return <SingleChatText recieved={item.senderId == fetchedCurrentUID ? false : true} textContent={item.message} deliveryTime={item.sentAt}/>
+        return <SingleChatText key={item.id} recieved={item.senderId == fetchedCurrentUID ? false : true} textContent={item.message} deliveryTime={item.sentAt}/>
       })}
     </>
   )
