@@ -84,16 +84,56 @@ const SignIn = () => {
             <span className='text-2xl'><FcGoogle/></span>
             <p className='text-sm text-authFontColor'>Login with google</p>
           </div>
-          <form action="#" className='flex flex-col gap-y-10 my-4'>
+          <form action="#" className="flex flex-col gap-y-10 my-4">
             <div className="relative">
-              <input type="email" id='email' name='email' value={loginInfo.email} onChange={e => handleChange(e)} className="block px-7.5 pb-2.5 pt-4 w-[368px] h-[70px] text-xl text-gray-900 bg-transparent rounded-lg border-1 border-gray-200 appearance-none  dark:focus:border-gray-200 focus:outline-none focus:ring-0 focus:border-gray-500 focus:border-2 peer" required/>
-              <label htmlFor="email" className="absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform translate-y-3 top-2 z-10 origin-[0] bg-white px-8 peer-focus:px-2 peer-focus:text-gray-400 peer-focus:dark:text-gray-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-80 peer-focus:ms-5 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Your Email</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={loginInfo.email}
+                onChange={(e) => handleChange(e)}
+                className="block px-7.5 pb-2.5 pt-4 w-[368px] h-[70px] text-xl text-gray-900 bg-transparent rounded-lg border-1 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-500 focus:border-2 peer"
+                required
+              />
+              <label
+                htmlFor="email"
+                className={`absolute text-xl text-gray-500 duration-300 transform bg-white px-2 ${
+                  loginInfo.email
+                    ? "scale-80 -translate-y-6 top-2"
+                    : "-translate-y-3 top-1/2"
+                } left-7.5 origin-[0] peer-focus:scale-80 peer-focus:-translate-y-6 peer-focus:top-2`}
+              >
+                Your Email
+              </label>
             </div>
             <div className="relative">
-              <input type="password" id='password' name='password' value={loginInfo.password} onChange={e => handleChange(e)} className="block px-7.5 pb-2.5 pt-4 w-[368px] h-[70px] text-xl text-gray-900 bg-transparent rounded-lg border-1 border-gray-200 appearance-none dark:focus:border-gray-200 focus:outline-none focus:ring-0 focus:border-gray-500 focus:border-2 peer" required/>
-              <label htmlFor="password" className="absolute text-xl text-gray-500 dark:text-gray-400 duration-300 transform translate-y-3 top-2 z-10 origin-[0] bg-white px-8 peer-focus:px-2 peer-focus:text-gray-400 peer-focus:dark:text-gray-400 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-80 peer-focus:ms-5 peer-focus:-translate-y-6 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1">Password</label>
+              <input
+                type="password"
+                id="password"
+                name="password"
+                value={loginInfo.password}
+                onChange={(e) => handleChange(e)}
+                className="block px-7.5 pb-2.5 pt-4 w-[368px] h-[70px] text-xl text-gray-900 bg-transparent rounded-lg border-1 border-gray-200 appearance-none focus:outline-none focus:ring-0 focus:border-gray-500 focus:border-2 peer"
+                required
+              />
+              <label
+                htmlFor="password"
+                className={`absolute text-xl text-gray-500 duration-300 transform bg-white px-2 ${
+                  loginInfo.password
+                    ? "scale-80 -translate-y-6 top-2"
+                    : "-translate-y-3 top-1/2"
+                } left-7.5 origin-[0] peer-focus:scale-80 peer-focus:-translate-y-6 peer-focus:top-2`}
+              >
+                Password
+              </label>
             </div>
-            <button type='submit' className='w-106 h-20 bg-mainColor rounded-lg font-semibold text-white text-xl cursor-pointer' onClick={e => handleSubmit(e)}>Login to continue</button>
+            <button
+              type="submit"
+              className="w-106 h-20 bg-mainColor rounded-lg font-semibold text-white text-xl cursor-pointer"
+              onClick={(e) => handleSubmit(e)}
+            >
+              Login to continue
+            </button>
           </form>
           <p className="text-center mt-8 text-authFontColor">
               Don't have an account?{" "}

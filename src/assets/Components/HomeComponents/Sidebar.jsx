@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { IoChatbubbleEllipsesSharp, IoExit, IoHomeOutline, IoNotificationsOutline, IoSettingsOutline } from 'react-icons/io5';
 import { LuCloudUpload } from 'react-icons/lu'
 import { getAuth } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 const Sidebar = () => {
   const [mouseOnDP, setMouseOnDP] = useState(false);
@@ -85,8 +86,9 @@ const Sidebar = () => {
         }
       </div>
       <div className="signOut" onClick={() => {
+          navigate('/signin');
+          toast.warn('You have been logged out.');
           signOut(auth);
-          navigate('/signin')
         }}>
         <div className='text-white text-[44px] w-[7dvw] h-[10dvh] flex justify-center items-center rounded-2xl my-[5%] hover:bg-white hover:opacity-60 hover:text-mainColor cursor-pointer'
         >

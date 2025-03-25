@@ -74,7 +74,7 @@ const SignUp = () => {
         })
         .then(() => sendEmailVerification(auth.currentUser))
         .then(() => {
-          toast.success("Resgistration Successful. Wellcome, " + fullName, {
+          toast.success("Check your email to authorize, " , {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
