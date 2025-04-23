@@ -3,6 +3,7 @@ import Sidebar from '../HomeComponents/Sidebar'
 import { Outlet } from 'react-router-dom'
 import { getAuth } from 'firebase/auth'
 import Error from '../../../Pages/Error/Error'
+import { ChatProvider } from '../../../contexts/ChatContext'
 
 const RootLayout = () => {
   const auth = getAuth();
@@ -14,12 +15,14 @@ const RootLayout = () => {
 
   if(userAuthorized) {
     return (
-      <div className='rootlayout bg-cover bg-center bg-no-repeat h-svh px-20 py-5 flex gap-x-5'>
-        <Sidebar/>
-        <div className="mainBody w-full ">
-          <Outlet/>
+      <ChatProvider>
+        <div className='rootlayout bg-cover bg-center bg-no-repeat h-svh px-20 py-5 flex gap-x-5'>
+          <Sidebar/>
+          <div className="mainBody w-full ">
+            <Outlet/>
+          </div>
         </div>
-      </div>
+      </ChatProvider>
     )
   } else return <Error/>
 }

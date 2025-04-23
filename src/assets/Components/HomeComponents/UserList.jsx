@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { userListMockData } from "../../../lib/componentsData";
 import GroupCard from "../CommonComponents/GroupCard";
-import { off, onValue, ref } from "firebase/database";
+import { onValue, ref } from "firebase/database";
 import { auth, db } from "../../../../Database/firebase";
+import { ChatContext } from "../../../contexts/ChatContext";
 
 const UserList = () => {
-  const [userListData, setUserListData] = useState([]);
-  const [alreadyAddedIds, setAlreadyAddedIds] = useState([]);
+  const { userListData, setUserListData, alreadyAddedIds, setAlreadyAddedIds } = useContext(ChatContext);
 
 
   /**
@@ -54,7 +54,6 @@ const UserList = () => {
     <GroupCard
       cardTitle={'User List'}
       listData={userListData}
-      alreadyAddedIds={alreadyAddedIds}
       withBtn={true}
     />
   );

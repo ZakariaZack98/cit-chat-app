@@ -1,17 +1,19 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useContext } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IoChatbubbleEllipsesSharp, IoExit, IoHomeOutline, IoNotificationsOutline, IoSettingsOutline } from 'react-icons/io5';
 import { LuCloudUpload } from 'react-icons/lu'
-import { getAuth, updateProfile } from 'firebase/auth';
+import { getAuth, updateProfile, signOut } from 'firebase/auth';
 import { toast } from 'react-toastify';
 import { ref, update } from 'firebase/database';
 import { db } from '../../../../Database/firebase';
+import { ChatContext } from '../../../contexts/ChatContext';
 
 const Sidebar = () => {
   const [mouseOnDP, setMouseOnDP] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const auth = getAuth();
+  const { resetChatContext } = useContext(ChatContext);
 
   const navItems = [
     {
@@ -101,6 +103,7 @@ const Sidebar = () => {
         }
       </div>
       <div className="signOut" onClick={() => {
+          resetChatContext();
           navigate('/signin');
           toast.warn('You have been logged out.');
           signOut(auth);
