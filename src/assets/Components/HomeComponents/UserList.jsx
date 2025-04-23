@@ -36,9 +36,10 @@ const UserList = () => {
    * @returns {array} containing id's that been sent friend request to
    * */
   useEffect(() => {
-    const updatedAlreadyAddedIds = []
+
     const friendRequestRef = ref(db, `friendRequests/${auth.currentUser.uid}`);
     const unsubscribe = onValue(friendRequestRef, (snapshot) => {
+      const updatedAlreadyAddedIds = []
       snapshot.forEach(request => {
         updatedAlreadyAddedIds.push(request.val().recieverId)
       })
@@ -51,7 +52,12 @@ const UserList = () => {
 
 
   return (
-    <GroupCard cardTitle={'User List'} listData={userListData} alreadyAddedIds={alreadyAddedIds}  withBtn={true}/>
+    <GroupCard
+      cardTitle={'User List'}
+      listData={userListData}
+      alreadyAddedIds={alreadyAddedIds}
+      withBtn={true}
+    />
   );
 };
 

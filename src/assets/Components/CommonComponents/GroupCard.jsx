@@ -2,13 +2,15 @@ import React from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import PersonCardWBtn from './PersonCardWBtn';
 import PersonCardWTxt from './PersonCardWTxt'
-import { SendFriendRequest } from '../../../utils/utils';
+import { CancelFriendRequest, SendFriendRequest } from '../../../utils/utils';
 import { auth } from '../../../../Database/firebase';
 
 const GroupCard = ({cardTitle, listData, alreadyAddedIds, withBtn}) => {
   const handleBtnClick = (userId) => {
     if(cardTitle === 'User List') {
-      SendFriendRequest(auth.currentUser.uid, userId)
+      if(alreadyAddedIds.includes(userId)) {
+        CancelFriendRequest(auth.currentUser.uid, userId)
+      } else SendFriendRequest(auth.currentUser.uid, userId)
     }
   }
 
