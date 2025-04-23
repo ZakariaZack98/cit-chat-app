@@ -15,7 +15,7 @@ const Settings = () => {
           <div className="userPart flex items-center gap-x-3 py-5 border-b-gray-300 border-b-[1px]">
             <picture>
               <img
-                src="https://thumbs.dreamstime.com/b/portrait-young-handsome-happy-man-wearing-glasses-casual-smart-blue-clothing-yellow-color-background-square-composition-200740125.jpg"
+                src={auth.currentUser.photoURL || "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740"}
                 className="w-14 h-14 object-cover object-center rounded-full"
               />
             </picture>

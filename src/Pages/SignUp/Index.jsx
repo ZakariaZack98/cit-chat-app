@@ -8,7 +8,7 @@ import {
 } from "firebase/auth";
 import { toast } from "react-toastify";
 import { PulseLoader } from "react-spinners";
-import { set, ref, push } from "firebase/database";
+import { set, ref } from "firebase/database";
 import { auth, db } from "../../../Database/firebase";
 const override = {
   display: "block",
@@ -62,17 +62,17 @@ const SignUp = () => {
           })
         )
         .then(() => {
-          const dbRef = ref(db, 'users/')
-          set(push(dbRef), {
+          const userRef = ref(db, `users/${auth.currentUser.uid}`);
+          set(userRef, {
             userName: auth.currentUser.displayName || fullName,
             email: auth.currentUser.email || email,
-            profile_picture: auth.currentUser.photoURL || 'https://img.freepik.com/free-photo/closeup-young-female-professional-making-eye-contact-against-colored-background_662251-651.jpg',
-            userId: auth.currentUser.uid
-          })
+            profile_picture: auth.currentUser.photoURL || 'https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740',
+            userId: auth.currentUser.uid,
+          });
         })
         .then(() => sendEmailVerification(auth.currentUser))
         .then(() => {
-          toast.success("Check your email to authorize, " , {
+          toast.success("Check your email to authorize.", {
             position: "top-right",
             autoClose: 5000,
             hideProgressBar: false,
@@ -82,9 +82,8 @@ const SignUp = () => {
             progress: undefined,
             theme: "colored",
           });
-          navigate('/')
-        }
-        )
+          navigate('/');
+        })
         .catch((err) =>
           toast.error("Registration Failed " + err, {
             position: "top-right",
@@ -96,7 +95,8 @@ const SignUp = () => {
             progress: undefined,
             theme: "colored",
           })
-        ).finally(() => setLoading(false))
+        )
+        .finally(() => setLoading(false));
     }
   };
 
