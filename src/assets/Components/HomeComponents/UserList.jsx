@@ -36,7 +36,6 @@ const UserList = () => {
    * @returns {array} containing id's that been sent friend request to
    * */
   useEffect(() => {
-
     const friendRequestRef = ref(db, `friendRequests/${auth.currentUser.uid}`);
     const unsubscribe = onValue(friendRequestRef, (snapshot) => {
       const updatedAlreadyAddedIds = []
