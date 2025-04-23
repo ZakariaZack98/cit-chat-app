@@ -6,7 +6,7 @@ const PersonCardWBtn = ({avatar, name, subText, btnText}) => {
     <div className='flex justify-between items-center'>
       <div className="leftPart flex justify-center items-center gap-x-2">
         <picture>
-          <img src={avatar} className='w-[50px] h-[50px] object-cover rounded-full'/>
+          <img src={avatar || '../../../../src/assets/images/login.jpg'} className='w-[50px] h-[50px] object-cover rounded-full'/>
         </picture>
         <div className="namePart">
           <p className='font-semibold'>{name}</p>

@@ -1,13 +1,12 @@
 import React, { useState } from 'react'
 import { FcGoogle } from 'react-icons/fc'
-import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
-import { getDatabase, push, ref, set } from 'firebase/database';
+import { signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { push, ref, set } from 'firebase/database';
 import { toast } from 'react-toastify';
 import { Link, useNavigate } from 'react-router-dom';
+import { auth, db } from '../../../Database/firebase';
 
 const SignIn = () => {
-  const auth = getAuth();
-  const db = getDatabase();
   const navigate = useNavigate();
   //setting up states
   const [loginInfo, setLoginInfo] = useState({email: '', password: ''});
@@ -35,7 +34,7 @@ const SignIn = () => {
       const userRef = ref(db, 'users/')
       set(push(userRef), {
         userId: user.uid,
-        username: user.displayName,
+        userName: user.displayName,
         email: user.email,
         profile_picture : user.photoURL,
       });

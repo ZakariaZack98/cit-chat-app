@@ -1,6 +1,7 @@
 import React from "react";
 import SearchBar from "../../assets/Components/CommonComponents/SearchBar";
 import { getAccountSettingsData, getProfileSettingsData } from "../../lib/componentsData";
+import { auth } from "../../../Database/firebase";
 
 const Settings = () => {
   const profileSettingsData = getProfileSettingsData();
@@ -19,7 +20,7 @@ const Settings = () => {
               />
             </picture>
             <div className="namePart">
-              <p className="font-semibold text-xl">John Doe</p>
+              <p className="font-semibold text-xl">{auth.currentUser.displayName}</p>
               <p className="text-sm ">Be the best version of yourself.</p>
             </div>
           </div>

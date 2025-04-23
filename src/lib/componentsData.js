@@ -4,44 +4,44 @@ import { MdAddPhotoAlternate, MdChat, MdOutlineCreate, MdOutlineDelete, MdOutlin
 export const groupListData = () => {
   return [
     {
-      id: 1,
-      imgUrl: "https://cdn.vectorstock.com/i/1000v/26/66/profile-icon-member-society-group-avatar-vector-18572666.jpg",
-      name: "Friends Forever",
+      userId: 1,
+      profile_picture: "https://cdn.vectorstock.com/i/1000v/26/66/profile-icon-member-society-group-avatar-vector-18572666.jpg",
+      userName: "Friends Forever",
       lastMsg: `let's hangout!`,
       btnText: "Join",
     },
     {
-      id: 2,
-      imgUrl: "https://cdn.vectorstock.com/i/1000v/26/66/profile-icon-member-society-group-avatar-vector-18572666.jpg",
-      name: "MERN 2404",
+      userId: 2,
+      profile_picture: "https://cdn.vectorstock.com/i/1000v/26/66/profile-icon-member-society-group-avatar-vector-18572666.jpg",
+      userName: "MERN 2404",
       lastMsg: "Happy coding! 👩🏻‍💻 👩🏻‍💻",
       btnText: "Join",
     },
     {
-      id: 3,
-      imgUrl: "https://cdn.vectorstock.com/i/1000v/26/66/profile-icon-member-society-group-avatar-vector-18572666.jpg",
-      name: "Crazy Cousins",
+      userId: 3,
+      profile_picture: "https://cdn.vectorstock.com/i/1000v/26/66/profile-icon-member-society-group-avatar-vector-18572666.jpg",
+      userName: "Crazy Cousins",
       lastMsg: "Hi 👋",
       btnText: "Join",
     },
     {
-      id: 4,
-      imgUrl: "https://cdn.vectorstock.com/i/1000v/26/66/profile-icon-member-society-group-avatar-vector-18572666.jpg",
-      name: "Gamers Unite",
+      userId: 4,
+      profile_picture: "https://cdn.vectorstock.com/i/1000v/26/66/profile-icon-member-society-group-avatar-vector-18572666.jpg",
+      userName: "Gamers Unite",
       lastMsg: "GG 🔥🔥🔥🔥",
       btnText: "Join",
     },
     {
-      id: 5,
-      imgUrl: "https://cdn.vectorstock.com/i/1000v/26/66/profile-icon-member-society-group-avatar-vector-18572666.jpg",
-      name: "Unstoppable 15",
+      userId: 5,
+      profile_picture: "https://cdn.vectorstock.com/i/1000v/26/66/profile-icon-member-society-group-avatar-vector-18572666.jpg",
+      userName: "Unstoppable 15",
       lastMsg: "Howdy!",
       btnText: "Join",
     },
     {
-      id: 6,
-      imgUrl: "https://cdn.vectorstock.com/i/1000v/26/66/profile-icon-member-society-group-avatar-vector-18572666.jpg",
-      name: "Blood Brothers",
+      userId: 6,
+      profile_picture: "https://cdn.vectorstock.com/i/1000v/26/66/profile-icon-member-society-group-avatar-vector-18572666.jpg",
+      userName: "Blood Brothers",
       lastMsg: "Need AB+ urgently",
       btnText: "Join",
     },
@@ -51,77 +51,77 @@ export const groupListData = () => {
 export const friendsData = () => {
   return [
     {
-      id: 1,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "John Doe",
+      userId: 1,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "John Doe",
       lastMsg: "Sure!",
       sentAt: "3 min ago",
     },
     {
-      id: 2,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Max",
+      userId: 2,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Max",
       lastMsg: "That will be great 😊",
       sentAt: "7 min ago",
     },
     {
-      id: 3,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Jack M.",
+      userId: 3,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Jack M.",
       lastMsg: "See you!",
       sentAt: "32 min ago",
     },
     {
-      id: 4,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Ashish Mehta",
+      userId: 4,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Ashish Mehta",
       lastMsg: "Take care! ",
       sentAt: "12:24 PM",
     },
     {
-      id: 5,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Mahmud B.",
+      userId: 5,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Mahmud B.",
       lastMsg: "Bye!",
       sentAt: "10:32 AM",
     },
   ];
 };
 
-export const userListData = () => {
+export const userListMockData = () => {
   return [
     {
-      id: 1,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Ryan Holliday",
+      userId: 1,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Ryan Holliday",
       lastSeen: `3 min ago`,
       btnText: "+",
     },
     {
-      id: 2,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Samuel Anderson",
+      userId: 2,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Samuel Anderson",
       lastSeen: `13 min ago`,
       btnText: "+",
     },
     {
-      id: 3,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Adam Smith",
+      userId: 3,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Adam Smith",
       lastSeen: `50 min ago`,
       btnText: "+",
     },
     {
-      id: 4,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Aiden Clarke",
+      userId: 4,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Aiden Clarke",
       lastSeen: `3 hours ago`,
       btnText: "+",
     },
     {
-      id: 5,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Nitish K.",
+      userId: 5,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Nitish K.",
       lastSeen: `6:33 AM`,
       btnText: "+",
     },
@@ -131,37 +131,37 @@ export const userListData = () => {
 export const friendRequestsData = () => {
   return [
     {
-      id: 1,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Mark Stevenson",
+      userId: 1,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Mark Stevenson",
       lastMsg: `Hi!`,
       btnText: "Accept",
     },
     {
-      id: 2,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Aleksi Vorvonski",
+      userId: 2,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Aleksi Vorvonski",
       lastMsg: `Let's discuss`,
       btnText: "Accept",
     },
     {
-      id: 3,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Johhny K.",
+      userId: 3,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Johhny K.",
       lastMsg: `Your speech was amazin...`,
       btnText: "Accept",
     },
     {
-      id: 4,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Danny M.",
+      userId: 4,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Danny M.",
       lastMsg: `Hola`,
       btnText: "Accept",
     },
     {
-      id: 5,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Nitish K.",
+      userId: 5,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Nitish K.",
       lastMsg: `Check email`,
       btnText: "Accept",
     },
@@ -171,37 +171,37 @@ export const friendRequestsData = () => {
 export const groupData = () => {
   return [
     {
-      id: 1,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "John Doe",
+      userId: 1,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "John Doe",
       lastMsg: "Sure!",
       sentAt: "3 min ago",
     },
     {
-      id: 2,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Max",
+      userId: 2,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Max",
       lastMsg: "That will be great 😊",
       sentAt: "7 min ago",
     },
     {
-      id: 3,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Jack M.",
+      userId: 3,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Jack M.",
       lastMsg: "See you!",
       sentAt: "32 min ago",
     },
     {
-      id: 4,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Ashish Mehta",
+      userId: 4,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Ashish Mehta",
       lastMsg: "Take care! ",
       sentAt: "12:24 PM",
     },
     {
-      id: 5,
-      imgUrl: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
-      name: "Mahmud B.",
+      userId: 5,
+      profile_picture: "https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small_2x/Basic_Ui__28186_29.jpg",
+      userName: "Mahmud B.",
       lastMsg: "Bye!",
       sentAt: "10:32 AM",
     },
@@ -211,45 +211,45 @@ export const groupData = () => {
 export const blockListData = () => {
   return [
     {
-      id: 1,
-      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
-      name: 'Swati Sharma',
+      userId: 1,
+      profile_picture: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      userName: 'Swati Sharma',
       lastSeen: '2 month ago',
     },
     {
-      id: 2,
-      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
-      name: 'Paul Cunninghum',
+      userId: 2,
+      profile_picture: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      userName: 'Paul Cunninghum',
       lastSeen: '3 month ago',
     },
     {
-      id: 3,
-      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
-      name: 'Sammuel S. Kennedy',
+      userId: 3,
+      profile_picture: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      userName: 'Sammuel S. Kennedy',
       lastSeen: '6 month ago',
     },
     {
-      id: 4,
-      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
-      name: 'Levi Abe',
+      userId: 4,
+      profile_picture: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      userName: 'Levi Abe',
       lastSeen: '7 month ago',
     },
     {
-      id: 5,
-      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
-      name: 'Jane Doe',
+      userId: 5,
+      profile_picture: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      userName: 'Jane Doe',
       lastSeen: '7 month ago',
     },
     {
-      id: 6,
-      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
-      name: 'Aditwa Banarjee',
+      userId: 6,
+      profile_picture: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      userName: 'Aditwa Banarjee',
       lastSeen: 'a year ago',
     },
     {
-      id: 7,
-      imgUrl: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
-      name: 'Maxi Mo',
+      userId: 7,
+      profile_picture: 'https://thumbs.dreamstime.com/b/hooded-avatar-hacked-crossed-out-blocked-isolated-vector-illustration-255844751.jpg',
+      userName: 'Maxi Mo',
       lastSeen: 'a year ago',
     },
   ]
@@ -257,8 +257,8 @@ export const blockListData = () => {
 
 export const activeConvUserData = () => {
   return {
-    name: 'Jessica McFarlen',
-    imgUrl: 'https://img.freepik.com/free-photo/closeup-young-female-professional-making-eye-contact-against-colored-background_662251-651.jpg',
+    userName: 'Jessica McFarlen',
+    profile_picture: 'https://img.freepik.com/free-photo/closeup-young-female-professional-making-eye-contact-against-colored-background_662251-651.jpg',
     isActive: true,
     lastSeen: 'online',
   }
@@ -269,61 +269,61 @@ export const getChatData = () => {
     chatId: 10001,
     msgCollection: [
       {
-        id: 1,
+        userId: 1,
         message: 'Hello John! 👋',
         senderId: '0kb345das7a9dnasd7aosd9',
         sentAt: '12:34 PM'
       },
       {
-        id: 2,
+        userId: 2,
         message: 'How are you doing?',
         senderId: '0kb345das7a9dnasd7aosd9',
         sentAt: '12:35 PM'
       },
       {
-        id: 3,
+        userId: 3,
         message: 'Hello Jessica! Good to hear from you! ✋😃',
         senderId: 'CurrentUserID',
         sentAt: '12:37 PM'
       },
       {
-        id: 4,
+        userId: 4,
         message: 'How is your project going?',
         senderId: 'CurrentUserID',
         sentAt: '12:37 PM'
       },
       {
-        id: 5,
+        userId: 5,
         message: 'Great! So far so good.',
         senderId: '0kb345das7a9dnasd7aosd9',
         sentAt: '12:40 PM'
       },
       {
-        id: 6,
+        userId: 6,
         message: `That's great to hear!`,
         senderId: 'CurrentUserID',
         sentAt: '12:40 min ago'
       },
       {
-        id: 7,
+        userId: 7,
         message: `How's your mother doing`,
         senderId: 'CurrentUserID',
         sentAt: '8 min ago'
       },
       {
-        id: 8,
+        userId: 8,
         message: `She's recovering well`,
         senderId: '0kb345das7a9dnasd7aosd9',
         sentAt: '3 min ago'
       },
       {
-        id: 9,
+        userId: 9,
         message: `Still have a little fever tho 😔😔`,
         senderId: '0kb345das7a9dnasd7aosd9',
         sentAt: '3 min ago'
       },
       {
-        id: 10,
+        userId: 10,
         message: `Don't worry she'll be ok.`,
         senderId: 'CurrentUserID',
         sentAt: 'now'
@@ -335,35 +335,35 @@ export const getChatData = () => {
 export const getNotificationData = () => {
   return [
     {
-      id: 1,
+      userId: 1,
       message: 'Aliqua id fugiat nostrud irure ex duis ea quis id quis ad et. Sunt qui esse pariatur duis deserunt mollit dolore cillum minim tempor enim. Elit aute irure tempor cupidatat incididunt sint deserunt ut voluptate aute id deserunt nisi.'
     },
     {
-      id:2,
+      userId:2,
       message: 'So yes, the alcohol (ethanol) in hand sanitizers can be absorbed through the skin, but no, it would not cause intoxication.'
     },
     {
-      id:3,
+      userId:3,
       message: 'How a visual artist redefines success in graphic design'
     },
     {
-      id:4,
+      userId:4,
       message: `For athletes, high altitude produces two contradictory effects on performance. For explosive events (sprints up to 400 metres, long jump, triple jump) the reduction in atmospheric pressure means there is less resistance from the atmosphere and the athlete's performance will generally be better at high altitude.`
     },
     {
-      id:5,
+      userId:5,
       message: 'How We Keep Brand Consistency in Our Visual Language — A Design System for Illustrations'
     },
     {
-      id:6,
+      userId:6,
       message: 'consectetur adipiscing elit duis tristique sollicitudin nibh sit amet commodo nulla facilisi nullam vehicula ipsum a arcu cursus vitae congue'
     },
     {
-      id:7,
+      userId:7,
       message: 'So yes, the alcohol (ethanol) in hand sanitizers can be absorbed through the skin, but no, it would not cause intoxication.'
     },
     {
-      id:8,
+      userId:8,
       message: 'So yes, the alcohol (ethanol) in hand sanitizers can be absorbed through the skin, but no, it would not cause intoxication.'
     },
   ]
@@ -372,23 +372,23 @@ export const getNotificationData = () => {
 export const getProfileSettingsData = () => {
   return [
     {
-      id: 1,
-      name: 'Edit Profile Name',
+      userId: 1,
+      userName: 'Edit Profile Name',
       icon: MdOutlineCreate
     },
     {
-      id: 2,
-      name: 'Edit Profile Status Info',
+      userId: 2,
+      userName: 'Edit Profile Status Info',
       icon: MdChat
     },
     {
-      id: 3,
-      name: 'Edit Profile Photo',
+      userId: 3,
+      userName: 'Edit Profile Photo',
       icon: MdAddPhotoAlternate
     },
     {
-      id: 4,
-      name: 'Help',
+      userId: 4,
+      userName: 'Help',
       icon: MdOutlineHelp
     },
   ]
@@ -397,18 +397,18 @@ export const getProfileSettingsData = () => {
 export const getAccountSettingsData = () => {
   return [
     {
-      id: 1,
-      name: 'Change Password',
+      userId: 1,
+      userName: 'Change Password',
       icon: MdOutlinePassword
     },
     {
-      id: 2,
-      name: 'Chnage Theme',
+      userId: 2,
+      userName: 'Chnage Theme',
       icon: CgDarkMode
     },
     {
-      id: 3,
-      name: 'Delete Account',
+      userId: 3,
+      userName: 'Delete Account',
       icon: MdOutlineDelete
     },
   ]

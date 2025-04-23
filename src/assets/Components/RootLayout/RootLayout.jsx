@@ -10,7 +10,7 @@ const RootLayout = () => {
 
   useEffect(() => {
     auth.currentUser && auth.currentUser.emailVerified ? setUserAuthorized(true) : setUserAuthorized(false);
-  })
+  }, [])
 
   if(userAuthorized) {
     return (

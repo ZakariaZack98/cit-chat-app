@@ -1,5 +1,4 @@
 import React from 'react'
-import Sidebar from '../../assets/Components/HomeComponents/Sidebar'
 import GroupList from '../../assets/Components/HomeComponents/GroupList'
 import Friends from '../../assets/Components/HomeComponents/Friends'
 import UserList from '../../assets/Components/HomeComponents/UserList'

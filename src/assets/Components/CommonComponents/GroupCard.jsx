@@ -18,9 +18,9 @@ const GroupCard = ({cardTitle, listData, btnText, withBtn}) => {
             listData?.map((item, idx) => {
               return (
                 <div
-                  key={item.id}
+                  key={item.userId}
                   className={`${idx < listData.length - 1 ? "border-b-gray-300 border-b-[1px]" : ""} py-2 cursor-pointer`}>
-                  <PersonCardWBtn avatar={item.imgUrl} name={item.name} subText={item.lastSeen || item.lastMsg} btnText={btnText} />
+                  <PersonCardWBtn avatar={item.profile_picture} name={item.userName || item.username} subText={item.lastSeen || item.lastMsg || ''} btnText={btnText || 'N/A'} />
                 </div>
               );
             })
@@ -28,9 +28,9 @@ const GroupCard = ({cardTitle, listData, btnText, withBtn}) => {
             listData?.map((item, idx) => {
               return (
                 <div
-                  key={item.id}
+                  key={item.userId}
                   className={`${idx < listData.length - 1 ? "border-b-gray-300 border-b-[1px]" : ""} py-2 cursor-pointer`}>
-                  <PersonCardWTxt avatar={item.imgUrl} name={item.name} subText={item.lastMsg} sideText={item.lastSeen || item.sentAt || ''} />
+                  <PersonCardWTxt avatar={item.profile_picture} name={item.userName || item.username} subText={item.lastMsg} sideText={item.lastSeen || item.sentAt || 'N/A'} />
                 </div>
               );
             })

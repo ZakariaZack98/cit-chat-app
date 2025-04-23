@@ -2,14 +2,14 @@ import React, { useState} from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { SignUpData } from "../../lib/lib";
 import {
-  getAuth,
   createUserWithEmailAndPassword,
   sendEmailVerification,
   updateProfile,
 } from "firebase/auth";
 import { toast } from "react-toastify";
 import { PulseLoader } from "react-spinners";
-import { getDatabase, set, ref, push } from "firebase/database";
+import { set, ref, push } from "firebase/database";
+import { auth, db } from "../../../Database/firebase";
 const override = {
   display: "block",
   margin: "0 auto",
@@ -18,8 +18,6 @@ const override = {
 
 
 const SignUp = () => {
-  const auth = getAuth();
-  const db = getDatabase();
   const navigate = useNavigate()
   //importing signup component data from library
   const signUpData = SignUpData();

@@ -74,7 +74,7 @@ const Sidebar = () => {
       <div className="avatar relative" onClick={handleProfilePic}>
         {mouseOnDP && (<span className='absolute top-[40%] left-[40%] text-white text-3xl shadow-2xl pointer-events-none'><LuCloudUpload/></span>)}
         <picture className='w-full h-25 flex justify-center items-center'>
-          <img src="https://thumbs.dreamstime.com/b/portrait-young-handsome-happy-man-wearing-glasses-casual-smart-blue-clothing-yellow-color-background-square-composition-200740125.jpg" alt="" className='object-center object-cover rounded-full overflow-hidden w-[70%] cursor-pointer' onMouseOver={() => setMouseOnDP(prev => !prev)} onMouseLeave={() => setMouseOnDP(prev => !prev)}/>
+          <img src={auth.currentUser.photoURL || "https://thumbs.dreamstime.com/b/portrait-young-handsome-happy-man-wearing-glasses-casual-smart-blue-clothing-yellow-color-background-square-composition-200740125.jpg"} alt="" className='object-center object-cover rounded-full overflow-hidden w-[70%] cursor-pointer' onMouseOver={() => setMouseOnDP(prev => !prev)} onMouseLeave={() => setMouseOnDP(prev => !prev)}/>
         </picture>
       </div>
       <div className="nav w-full flex flex-col justify-center items-center">
