@@ -31,8 +31,8 @@ const SignIn = () => {
     signInWithPopup(auth, provider)
     .then(userInfo => {
       const {user} = userInfo;
-      const userRef = ref(db, 'users/')
-      set(push(userRef), {
+      const userRef = ref(db, `users/${user.uid}`)
+      set(userRef, {
         userId: user.uid,
         userName: user.displayName,
         email: user.email,

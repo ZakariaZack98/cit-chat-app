@@ -1,7 +1,7 @@
 import React from 'react'
 import CommonBtn from './CommonBtn'
 
-const PersonCardWBtn = ({avatar, name, subText, btnText}) => {
+const PersonCardWBtn = ({avatar, name, subText, btnText, handleBtnClick}) => {
   return (
     <div className='flex justify-between items-center'>
       <div className="leftPart flex justify-center items-center gap-x-2">
@@ -10,11 +10,11 @@ const PersonCardWBtn = ({avatar, name, subText, btnText}) => {
         </picture>
         <div className="namePart">
           <p className='font-semibold'>{name}</p>
-          <p className='text-sm'>{subText}</p>
+          <p className='text-sm opacity-60 truncate'>{subText}</p>
         </div>
       </div>
       <div className="rightPart">
-        <CommonBtn label={btnText}/>
+        <CommonBtn label={btnText} handleClick={handleBtnClick}/>
       </div>
     </div>
   )

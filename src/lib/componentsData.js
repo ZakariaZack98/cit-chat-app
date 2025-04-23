@@ -372,23 +372,23 @@ export const getNotificationData = () => {
 export const getProfileSettingsData = () => {
   return [
     {
-      userId: 1,
-      userName: 'Edit Profile Name',
+      id: 1,
+      name: 'Edit Profile Name',
       icon: MdOutlineCreate
     },
     {
-      userId: 2,
-      userName: 'Edit Profile Status Info',
+      id: 2,
+      name: 'Edit Profile Status Info',
       icon: MdChat
     },
     {
-      userId: 3,
-      userName: 'Edit Profile Photo',
+      id: 3,
+      name: 'Edit Profile Photo',
       icon: MdAddPhotoAlternate
     },
     {
-      userId: 4,
-      userName: 'Help',
+      id: 4,
+      name: 'Help',
       icon: MdOutlineHelp
     },
   ]
@@ -397,18 +397,18 @@ export const getProfileSettingsData = () => {
 export const getAccountSettingsData = () => {
   return [
     {
-      userId: 1,
-      userName: 'Change Password',
+      id: 1,
+      name: 'Change Password',
       icon: MdOutlinePassword
     },
     {
-      userId: 2,
-      userName: 'Chnage Theme',
+      id: 2,
+      name: 'Chnage Theme',
       icon: CgDarkMode
     },
     {
-      userId: 3,
-      userName: 'Delete Account',
+      id: 3,
+      name: 'Delete Account',
       icon: MdOutlineDelete
     },
   ]

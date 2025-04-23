@@ -86,10 +86,10 @@ const Sidebar = () => {
 
   return (
     <div className='w-[10%] h-full flex flex-col justify-between items-center bg-mainColor rounded-4xl px-2 py-[5dvh]'>
-      <div className="avatar relative" onClick={handleProfilePic}>
+      <div className="avatar relative " onClick={handleProfilePic}>
         {mouseOnDP && (<span className='absolute top-[40%] left-[40%] text-white text-3xl shadow-2xl pointer-events-none'><LuCloudUpload/></span>)}
         <picture className='w-full h-25 flex justify-center items-center'>
-          <img src={auth.currentUser.photoURL || "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740"} alt="" className='object-center object-cover rounded-full overflow-hidden w-[70%] cursor-pointer' onMouseOver={() => setMouseOnDP(prev => !prev)} onMouseLeave={() => setMouseOnDP(prev => !prev)}/>
+          <img src={auth.currentUser.photoURL || "https://img.freepik.com/free-vector/blue-circle-with-white-user_78370-4707.jpg?semt=ais_hybrid&w=740"} alt="" className='object-center object-cover rounded-full overflow-hidden w-[70%] min-h-14 min-w-14 cursor-pointer' onMouseOver={() => setMouseOnDP(prev => !prev)} onMouseLeave={() => setMouseOnDP(prev => !prev)}/>
         </picture>
       </div>
       <div className="nav w-full flex flex-col justify-center items-center">
