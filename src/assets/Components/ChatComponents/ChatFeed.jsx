@@ -1,16 +1,20 @@
 import React from 'react'
 import SingleChatText from './SingleChatText'
+import { auth } from '../../../../Database/firebase';
+import moment from 'moment';
 
-const ChatFeed = ({chatData}) => {
-  // TODO: Extracting message collection array from fetched data
-  const { msgCollection } = chatData;
-  const fetchedCurrentUID = 'CurrentUserID'; //* Dummy current ID of current user
+const ChatFeed = ({ chatData }) => {
   return (
     <>
-      {msgCollection?.map(item => {
-        // ? IF senderID and current user's id matches it's a sent message otherwise it's a received message
-        return <SingleChatText key={item.id} recieved={item.senderId == fetchedCurrentUID ? false : true} textContent={item.message} deliveryTime={item.sentAt}/>
-      })}
+      {
+        chatData.length > 0 ? (
+          <div className='w-full h-full'>
+            {chatData?.map(message => {
+              return <SingleChatText key={message.createdAt} recieved={message.senderId === auth.currentUser.uid ? false : true} textContent={message.text} deliveryTime={moment(message.createdAt).fromNow()} />
+            })}
+          </div>
+        ) : <p className='font-semibold text-xl'>No messages to show. Send a message to start a conversation.</p>
+      }
     </>
   )
 }

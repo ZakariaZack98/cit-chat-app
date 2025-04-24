@@ -7,7 +7,6 @@ import { auth, db } from '../../../../Database/firebase';
 import { ChatContext } from '../../../contexts/ChatContext';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
-import { ref } from 'firebase/database';
 
 const GroupCard = ({ cardTitle, listData, withBtn }) => {
   const { alreadyAddedIds, friendlistData, setChatPartner } = useContext(ChatContext);
@@ -26,6 +25,12 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
       } else SendFriendRequest(auth.currentUser.uid, userId)
     } else if (cardTitle === 'Friend Requests') {
       AddToFriendlist(userId)
+    } else if (cardTitle === 'Friends') {
+      FetchUser(userId)
+        .then(data => {
+          setChatPartner(data);
+          navigate('/chat');
+      })
     }
   }
 

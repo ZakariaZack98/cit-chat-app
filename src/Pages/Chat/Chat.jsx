@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import GroupList from "../../assets/Components/HomeComponents/GroupList";
 import Friends from "../../assets/Components/HomeComponents/Friends";
 import { getChatData } from "../../lib/componentsData";
@@ -8,9 +8,15 @@ import { MdPhoto } from "react-icons/md";
 import ChatFeed from "../../assets/Components/ChatComponents/ChatFeed";
 import { ChatContext } from "../../contexts/ChatContext";
 import Picker from '@emoji-mart/react';
+import { onValue, push, ref } from "firebase/database";
+import { auth, db } from "../../../Database/firebase";
+import { GetTimeNow } from "../../utils/utils";
+
+//* UNIQUE CONVERSATION KEY GENERATOR ==================================
+const getConversationKey = (id1, id2) => [id1, id2].sort().join('_');
 
 const Chat = () => {
-  const { chatPartner } = useContext(ChatContext);
+  const { chatPartner, chatFeedData, setChatFeedData } = useContext(ChatContext);
   const listData = getChatData(); //DUMMY FETCHING CHAT DATA
 
   const [input, setInput] = useState('');
@@ -19,6 +25,46 @@ const Chat = () => {
   const addEmoji = (emoji) => {
     setInput(input + (emoji.native || emoji.unified || ""));
   };
+
+  /**
+   * TODO: FETCH THE CONVERSATION DATA BASED ON CURRENT USER & CHAT PARTNER'S ID =================================
+   * @param {currentUserId, chatPartnerId} string which combined make the conversation key
+   * */ 
+  useEffect(() => {
+    if (!auth.currentUser?.uid || !chatPartner?.userId) return;
+    const conversationKey = getConversationKey(auth.currentUser.uid, chatPartner.userId);
+    const conversationRef = ref(db, `conversations/${conversationKey}`);
+    const unsubscribe = onValue(conversationRef, (snapshot) => {
+      const convData = []
+      snapshot.forEach(text => {
+        console.log(text.val())
+        convData.push(text.val())
+      });
+      setChatFeedData(convData);
+    });
+  
+    return () => unsubscribe();
+  }, [auth.currentUser?.uid, chatPartner?.userId]);
+
+  /**
+   * TODO: SEND THE TYPED MESSAGE TO A CONVERSATION COLLECTION IN BD WHICH BOTH USER WILL USE =====================
+   * @param {senderId, recieverId, text} string containing sender's id, reciever's id and the message
+   * @return null
+   * */ 
+  const sendMessage = async (senderId, recieverId, text) => {
+    const conversationKey = getConversationKey(senderId, recieverId);
+    const conversationsRef = ref(db, `conversations/${conversationKey}`);
+    try {
+      await push(conversationsRef, {
+        text,
+        senderId,
+        recieverId,
+        createdAt: GetTimeNow()
+      })
+    } catch (error) {
+      console.error('Error sending message', error.message)
+    }
+  }
 
   return (
     <div className="w-full h-full flex gap-x-5">
@@ -37,8 +83,8 @@ const Chat = () => {
           isActive={chatPartner?.isActive || true}
           lastSeen={chatPartner?.lastSeen || 'now'}
         />
-        <div className="chatFeed h-[70%] overflow-scroll" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-          <ChatFeed chatData={listData} />
+        <div className="chatFeed h-[70%] overflow-scroll flex justify-center items-center" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
+          <ChatFeed chatData={chatFeedData} />
         </div>
         <div className="inputPart flex items-center gap-x-2 mt-4 pt-5 pb-1 border-t-gray-300 border-t-[1px] relative">
           <div className="flex items-center bg-[#f1f1f1] rounded-lg flex-grow px-3 py-2">
@@ -50,8 +96,8 @@ const Chat = () => {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={e => {
                 if (e.key === 'Enter') {
-                  //sending function
-                  console.log('Proceed to send', input);
+                  sendMessage(auth.currentUser.uid, chatPartner.userId, input);
+                  setInput('');
                 }
               }}
             />
@@ -68,8 +114,8 @@ const Chat = () => {
           <button
             className="w-10 h-9 bg-mainColor rounded-lg flex items-center justify-center text-white cursor-pointer"
             onClick={() => {
-              //sending function
-              console.log('Proceed to send', input);
+              sendMessage(auth.currentUser.uid, chatPartner.userId, input);
+              setInput('');
             }}
           >
             <FaPaperPlane />

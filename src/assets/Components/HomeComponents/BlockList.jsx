@@ -5,7 +5,7 @@ import GroupCard from '../CommonComponents/GroupCard';
 const BlockList = () => {
   const listData = blockListData();
   return (
-    <GroupCard cardTitle={'Blocked Users'} listData={listData} btnText={'Unblock'} withBtn={true}/>
+    <GroupCard cardTitle={'Blocked Users'} listData={[]} btnText={'Unblock'} withBtn={true}/>
   )
 }
 
