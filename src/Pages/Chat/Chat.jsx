@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useState, useRef } from "react";
 import GroupList from "../../assets/Components/HomeComponents/GroupList";
 import Friends from "../../assets/Components/HomeComponents/Friends";
 import UserPart from "../../assets/Components/ChatComponents/UserPart";
@@ -11,20 +11,80 @@ import { onValue, push, ref } from "firebase/database";
 import { auth, db } from "../../../Database/firebase";
 import { GetTimeNow } from "../../utils/utils";
 
-//* UNIQUE CONVERSATION KEY GENERATOR
 const getConversationKey = (id1, id2) => [id1, id2].sort().join("_");
 
 const Chat = () => {
   const { chatPartner, chatFeedData, setChatFeedData } = useContext(ChatContext);
-
   const [input, setInput] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+  const [uploadError, setUploadError] = useState(null);
+  const uploadWidget = useRef(null);
 
   const addEmoji = (emoji) => {
     setInput(input + (emoji.native || emoji.unified || ""));
   };
 
-  // FETCH CHAT FEED
+  // Initialize Cloudinary widget once
+  useEffect(() => {
+    const loadCloudinary = () => {
+      const script = document.createElement('script');
+      script.src = 'https://upload-widget.cloudinary.com/latest/global/all.js';
+      script.async = true;
+      script.onload = initializeWidget;
+      document.body.appendChild(script);
+    };
+
+    const initializeWidget = () => {
+      if (!window.cloudinary) return;
+
+      uploadWidget.current = window.cloudinary.createUploadWidget(
+        {
+          cloudName: "dubcsgtfg",
+          uploadPreset: "cit-chat-app",
+          sources: ['local', 'url', 'camera', 'dropbox', 'unsplash', 'image_search', 'google_drive', 'shutterstock'],
+          multiple: false,
+          cropping: false,
+          folder: "chat_images",
+          resourceType: "image",
+        },
+        (error, result) => {
+          if (error) {
+            console.error("Upload error:", error);
+            setUploadError("Upload failed. Please try again.");
+            setIsUploading(false);
+            return;
+          }
+
+          if (result.event === "success") {
+            sendMessage(auth.currentUser.uid, chatPartner.userId, "", result.info.secure_url);
+            setTimeout(() => {
+              setIsUploading(false);
+              setUploadError(null);
+            }, 500); // Small delay to prevent rapid successive uploads
+          }
+
+          if (result.event === "close") {
+            setIsUploading(false);
+          }
+        }
+      );
+    };
+
+    if (!window.cloudinary) {
+      loadCloudinary();
+    } else {
+      initializeWidget();
+    }
+
+    return () => {
+      if (uploadWidget.current?.close) {
+        uploadWidget.current.close();
+      }
+    };
+  }, [chatPartner]);
+
+  // Fetch chat feed
   useEffect(() => {
     if (!auth.currentUser?.uid || !chatPartner?.userId) return;
     const conversationKey = getConversationKey(auth.currentUser.uid, chatPartner.userId);
@@ -40,7 +100,6 @@ const Chat = () => {
     return () => unsubscribe();
   }, [auth.currentUser?.uid, chatPartner?.userId]);
 
-  // SEND MESSAGE (WITH optional imageUrl)
   const sendMessage = async (senderId, recieverId, text, imageUrl = "") => {
     const conversationKey = getConversationKey(senderId, recieverId);
     const conversationsRef = ref(db, `conversations/${conversationKey}`);
@@ -57,34 +116,12 @@ const Chat = () => {
     }
   };
 
-  // HANDLE IMAGE UPLOAD USING CLOUDINARY
   const handleUpload = () => {
-    if (!window.cloudinary) {
-      console.error("Cloudinary widget script not loaded.");
-      return;
-    }
-
-    window.cloudinary.openUploadWidget(
-      {
-        cloudName: "dubcsgtfg",
-        uploadPreset: "cit-chat-app",
-        sources: ["local", "url", "camera", "dropbox", "unsplash", "image_search", "google_drive", "shutterstock"],
-        multiple: false,
-        cropping: false,
-        folder: "chat_images",
-        resourceType: "image",
-        searchBySites: ["all", "cloudinary.com"],
-        searchByRights: true,
-      },
-      async (error, result) => {
-        if (!error && result && result.event === "success") {
-          const imageUrl = result.info.secure_url;
-          await sendMessage(auth.currentUser.uid, chatPartner.userId, "", imageUrl);
-        } else if (error) {
-          console.error("Upload error:", error);
-        }
-      }
-    );
+    if (!uploadWidget.current || isUploading) return;
+    
+    setIsUploading(true);
+    setUploadError(null);
+    uploadWidget.current.open();
   };
 
   return (
@@ -105,11 +142,16 @@ const Chat = () => {
           lastSeen={chatPartner?.lastSeen || "now"}
         />
         <div
-          className="chatFeed h-[70%] overflow-scroll flex justify-center items-center"
+          className="chatFeed h-[80%] overflow-scroll flex justify-center items-center"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
           <ChatFeed chatData={chatFeedData} />
         </div>
         <div className="inputPart flex items-center gap-x-2 mt-4 pt-5 pb-1 border-t-gray-300 border-t-[1px] relative">
+          {uploadError && (
+            <div className="absolute bottom-full mb-1 left-0 text-red-500 text-xs">
+              {uploadError}
+            </div>
+          )}
           <div className="flex items-center bg-[#f1f1f1] rounded-lg flex-grow px-3 py-2">
             <input
               type="text"
@@ -133,7 +175,10 @@ const Chat = () => {
                 <Picker onEmojiSelect={addEmoji} />
               </div>
             )}
-            <MdPhoto className="text-black opacity-50 cursor-pointer" onClick={handleUpload} />
+            <MdPhoto 
+              className={`text-black ${isUploading ? "opacity-25 animate-pulse" : "opacity-50"} cursor-pointer`} 
+              onClick={isUploading ? undefined : handleUpload} 
+            />
           </div>
           <button
             className="w-10 h-9 bg-mainColor rounded-lg flex items-center justify-center text-white cursor-pointer"
