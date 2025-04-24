@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState, useContext, useRef } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { IoChatbubbleEllipsesSharp, IoExit, IoHomeOutline, IoNotificationsOutline, IoSettingsOutline } from 'react-icons/io5';
 import { LuCloudUpload } from 'react-icons/lu'
@@ -13,8 +13,16 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = getAuth();
-  const { resetChatContext, unreadMessages, notificationsData, setNotificationsData } = useContext(ChatContext);
+  const { resetChatContext, unreadMessages, notificationsData, setNotificationsData, friendlistData, setChatPartner } = useContext(ChatContext);
   const [pendingNotification, setPendingNotifications] = useState(notificationsData.length); //! Temporary solution (Gimmick)
+  const hasSetPartner = useRef(false);
+
+  useEffect(() => {
+    if (!hasSetPartner.current && friendlistData && friendlistData.length > 0) {
+      setChatPartner(friendlistData[0]);
+      hasSetPartner.current = true;
+    }
+  }, [friendlistData, setChatPartner]);
 
   const navItems = [
     {

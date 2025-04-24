@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import GroupList from "../../assets/Components/HomeComponents/GroupList";
 import Friends from "../../assets/Components/HomeComponents/Friends";
 import { activeConvUserData, getChatData } from "../../lib/componentsData";
@@ -6,10 +6,15 @@ import UserPart from "../../assets/Components/ChatComponents/UserPart";
 import { FaPaperPlane, FaRegSmile } from "react-icons/fa";
 import { MdPhoto } from "react-icons/md";
 import ChatFeed from "../../assets/Components/ChatComponents/ChatFeed";
+import { ChatContext } from "../../contexts/ChatContext";
 
 const Chat = () => {
-  const [convUser, setConvUser] = useState(activeConvUserData());
+  const {chatPartner} = useContext(ChatContext);
   const listData = getChatData(); //DUMMY FETCHING CHAT DATA
+
+  const [input, setInput] = useState('');
+
+
   return (
     <div className="w-full h-full flex gap-x-5">
       <div className="left w-[30%] h-full flex flex-col justify-between">
@@ -21,7 +26,7 @@ const Chat = () => {
         </div>
       </div>
       <div className="right w-[70%] h-full shadow-xl rounded-xl px-7 py-4 flex flex-col justify-between bg-white">
-        <UserPart avatar={convUser.imgUrl} name={convUser.name} isActive={convUser.isActive} lastSeen={convUser.lastSeen} />
+        <UserPart avatar={chatPartner.profile_picture} name={chatPartner.userName} isActive={chatPartner.isActive || true } lastSeen={chatPartner.lastSeen || 'now'} />
         <div className="chatFeed h-[70%] overflow-scroll" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
           <ChatFeed chatData={listData}/>
         </div>
@@ -30,12 +35,23 @@ const Chat = () => {
             <input
               type="text"
               placeholder="Type a message..."
+              value={input}
               className="flex-grow bg-transparent outline-none text-sm text-gray-700"
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={e => {
+                if(e.key === 'Enter') {
+                  //sending function
+                  console.log('Proceed to send', input);
+                }
+              }}
             />
             <FaRegSmile className="text-black opacity-50 cursor-pointer mx-2" />
             <MdPhoto className="text-black opacity-50 cursor-pointer" />
           </div>
-          <button className="w-10 h-9 bg-mainColor rounded-lg flex items-center justify-center text-white cursor-pointer">
+          <button className="w-10 h-9 bg-mainColor rounded-lg flex items-center justify-center text-white cursor-pointer" onClick={() => {
+            //sending function
+            console.log('Proceed to send', input);
+          }}>
             <FaPaperPlane />
           </button>
         </div>

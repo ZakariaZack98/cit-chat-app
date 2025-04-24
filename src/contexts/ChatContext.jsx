@@ -1,22 +1,22 @@
 import React, { createContext, useState } from 'react'
 const ChatContext = createContext();
 const initialState = {
-  currentUser: {},
+  chatPartner: null,
   userListData: [],
   alreadyAddedIds: [],
   friendRequestData: [],
   friendlistData: [],
 };
 const ChatProvider = ({children}) => {
-  const [currentUser, setCurrentUser] = useState(initialState.currentUser);
+  const [chatPartner, setChatPartner] = useState(initialState.chatPartner);
   const [userListData, setUserListData] = useState(initialState.userListData);
   const [alreadyAddedIds, setAlreadyAddedIds] = useState(initialState.alreadyAddedIds);
   const [friendRequestData, setFriendRequestData] = useState(initialState.friendRequestData);
-  const [friendlistData, setFriendlistData] = useState([])
-  const [notificationsData, setNotificationsData] = useState([])
+  const [friendlistData, setFriendlistData] = useState([]);
+  const [notificationsData, setNotificationsData] = useState([]);
 
   const resetChatContext = () => {
-    setCurrentUser(initialState.currentUser);
+    setChatPartner(initialState.chatPartner);
     setUserListData(initialState.userListData);
     setAlreadyAddedIds(initialState.alreadyAddedIds);
     setFriendRequestData(initialState.friendRequestData);
@@ -26,8 +26,8 @@ const ChatProvider = ({children}) => {
 
   return (
     <ChatContext.Provider value={{
-      currentUser,
-      setCurrentUser,
+      chatPartner,
+      setChatPartner,
       userListData, 
       setUserListData,
       alreadyAddedIds,

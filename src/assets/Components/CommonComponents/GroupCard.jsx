@@ -2,18 +2,27 @@ import React, { useContext } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import PersonCardWBtn from './PersonCardWBtn';
 import PersonCardWTxt from './PersonCardWTxt'
-import { AddToFriendlist, CancelFriendRequest, SendFriendRequest } from '../../../utils/utils';
-import { auth } from '../../../../Database/firebase';
+import { AddToFriendlist, CancelFriendRequest, FetchUser, SendFriendRequest } from '../../../utils/utils';
+import { auth, db } from '../../../../Database/firebase';
 import { ChatContext } from '../../../contexts/ChatContext';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
+import { ref } from 'firebase/database';
 
-const GroupCard = ({cardTitle, listData, withBtn}) => {
-  const { alreadyAddedIds } = useContext(ChatContext);
-
+const GroupCard = ({ cardTitle, listData, withBtn }) => {
+  const { alreadyAddedIds, friendlistData, setChatPartner } = useContext(ChatContext);
+  const navigate = useNavigate();
   const handleBtnClick = (userId) => {
-    if(cardTitle === 'User List') {
-      if(alreadyAddedIds.includes(userId)) {
+    if (cardTitle === 'User List') {
+      if (alreadyAddedIds.includes(userId)) {
         CancelFriendRequest(auth.currentUser.uid, userId)
+      } else if (friendlistData.map(friend => friend.userId).includes(userId)) {
+        FetchUser(userId)
+          .then(data => {
+            setChatPartner(data);
+            navigate('/chat');
+          })
+        console.log('Proceed to send message to that person')
       } else SendFriendRequest(auth.currentUser.uid, userId)
     } else if (cardTitle === 'Friend Requests') {
       AddToFriendlist(userId)
@@ -21,16 +30,18 @@ const GroupCard = ({cardTitle, listData, withBtn}) => {
   }
 
   const handleSecondBtnClick = (userId) => {
-    if(cardTitle === 'Friend Requests') {
+    if (cardTitle === 'Friend Requests') {
       CancelFriendRequest(userId, auth.currentUser.uid)
       console.log('clicked')
     }
   }
 
   const getBtnText = (id) => {
-    if(cardTitle === 'User List') {
-      if(alreadyAddedIds.includes(id)) {
+    if (cardTitle === 'User List') {
+      if (alreadyAddedIds.includes(id)) {
         return 'Cancel Request'
+      } else if (friendlistData.map(friend => friend.userId).includes(id)) {
+        return 'Message'
       } else return 'Add Friend'
     } else if (cardTitle === 'Friend Requests') {
       return 'Accept'
@@ -42,10 +53,17 @@ const GroupCard = ({cardTitle, listData, withBtn}) => {
   }
 
   const getSubText = (item) => {
-    if(cardTitle === 'Friends') {
+    if (cardTitle === 'Friends') {
       return `Friend since ${moment(item.createdAt).fromNow()}`
     } else if (cardTitle === 'Friend Requests') {
       return moment(item.createdAt).fromNow();
+    } else if (cardTitle === 'User List') {
+      const friend = friendlistData.find(friend => friend.userId === item.userId);
+      if (friend) {
+        return `Friend since ${moment(friend.createdAt).fromNow()}`
+      } else {
+        return `${item.email}`
+      }
     } else return `${item.email}`
   }
 
@@ -71,15 +89,15 @@ const GroupCard = ({cardTitle, listData, withBtn}) => {
                 <div
                   key={item.userId}
                   className={`${idx < listData.length - 1 ? "border-b-gray-300 border-b-[1px]" : ""} py-2 cursor-pointer`}>
-                  <PersonCardWBtn 
-                  avatar={item.profile_picture} 
-                  name={item.userName || item.username} 
-                  subText={`${getSubText(item)}` || ''}
-                  btnText={getBtnText(item.userId)} 
-                  bgColorClass={getBtnText(item.userId) === 'Cancel Request' ? 'bg-red-500' : ''}
-                  doubleBtn = {cardTitle === 'Friend Requests' ? true : false}
-                  secondBtnClickHandler={() => handleSecondBtnClick(item.userId)}
-                  handleBtnClick={() => handleBtnClick(item.userId)}/>
+                  <PersonCardWBtn
+                    avatar={item.profile_picture}
+                    name={item.userName || item.username}
+                    subText={`${getSubText(item)}` || ''}
+                    btnText={getBtnText(item.userId)}
+                    bgColorClass={getBtnText(item.userId) === 'Cancel Request' ? 'bg-red-500' : ''}
+                    doubleBtn={cardTitle === 'Friend Requests' ? true : false}
+                    secondBtnClickHandler={() => handleSecondBtnClick(item.userId)}
+                    handleBtnClick={() => handleBtnClick(item.userId)} />
                 </div>
               );
             })
