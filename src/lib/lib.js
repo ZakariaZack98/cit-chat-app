@@ -1,3 +1,4 @@
+
 export const SignUpData = () => {
   return [
     {id: 1, name: 'email'},

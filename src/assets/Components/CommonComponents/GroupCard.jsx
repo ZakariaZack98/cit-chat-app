@@ -5,6 +5,7 @@ import PersonCardWTxt from './PersonCardWTxt'
 import { AddToFriendlist, CancelFriendRequest, SendFriendRequest } from '../../../utils/utils';
 import { auth } from '../../../../Database/firebase';
 import { ChatContext } from '../../../contexts/ChatContext';
+import moment from 'moment';
 
 const GroupCard = ({cardTitle, listData, withBtn}) => {
   const { alreadyAddedIds } = useContext(ChatContext);
@@ -35,13 +36,17 @@ const GroupCard = ({cardTitle, listData, withBtn}) => {
       return 'Accept'
     } else if (cardTitle === 'Friends') {
       return 'Message'
-    }
+    } else if (cardTitle === 'Blocked Users') {
+      return 'Unblock'
+    } else return 'Message'
   }
 
-  const getSubText = () => {
+  const getSubText = (item) => {
     if(cardTitle === 'Friends') {
-      return 'Friend since'
-    } else return ''
+      return `Friend since ${moment(item.createdAt).fromNow()}`
+    } else if (cardTitle === 'Friend Requests') {
+      return moment(item.createdAt).fromNow();
+    } else return `${item.email}`
   }
 
 
@@ -69,7 +74,7 @@ const GroupCard = ({cardTitle, listData, withBtn}) => {
                   <PersonCardWBtn 
                   avatar={item.profile_picture} 
                   name={item.userName || item.username} 
-                  subText={`${getSubText()} ${item.lastSeen || item.lastMsg || item.createdAt || item.email || ''}`}
+                  subText={`${getSubText(item)}` || ''}
                   btnText={getBtnText(item.userId)} 
                   bgColorClass={getBtnText(item.userId) === 'Cancel Request' ? 'bg-red-500' : ''}
                   doubleBtn = {cardTitle === 'Friend Requests' ? true : false}

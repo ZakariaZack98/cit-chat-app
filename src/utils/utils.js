@@ -1,6 +1,12 @@
 import { push, ref, remove, get, set } from "firebase/database";
 import { auth, db } from "../../Database/firebase";
 import { toast } from "react-toastify";
+import moment from "moment";
+
+//* TIME FORMATTER HELPER FUNCTION ===================
+export const GetTimeNow = () => {
+  return moment().format("MM DD YYYY hh:mm:ss a")
+}
 
 /**
  * TODO: (HELPER) FIND THE KEY OF A RECORD USING A CERTAIN FIELD VALUE THAT MATCH WITH THE GIVEN FIELD VALUE===============
@@ -24,16 +30,21 @@ export const FindKeyByField = (snapshot, field, value) => {
 export const SendFriendRequest = async (senderId, recieverId) => {
   const friendRequestRef = ref(db, `friendRequests/${senderId}`);
   const recieverFriendRequestRef = ref(db, `recievedFriendRequests/${recieverId}`);
+  const notificationRef = ref(db, `notifications/${recieverId}`)
   await Promise.all([
     push(friendRequestRef, {
       recieverId,
       senderId,
-      createdAt: new Date().toISOString(),
+      createdAt: GetTimeNow(),
     }),
     push(recieverFriendRequestRef, {
       recieverId,
       senderId,
-      createdAt: new Date().toISOString(),
+      createdAt: GetTimeNow(),
+    }),
+    push(notificationRef, {
+      message: `${auth.currentUser.displayName} sent you a friend request.`,
+      createdAt: GetTimeNow(),
     })
   ])
   .then(() => toast.success('Friend Request Sent.'))
@@ -80,17 +91,22 @@ export const CancelFriendRequest = async (senderId, recieverId, exception) => {
 export const AddToFriendlist = async senderId => {
   const friendListRef = ref(db, `friendList/${auth.currentUser.uid}/${senderId}`);
   const sendersFriendListRef = ref(db, `friendList/${senderId}/${auth.currentUser.uid}`)
+  const notificationRef = ref(db, `notifications/${senderId}`)
   try {
     await Promise.all([
       set(friendListRef, {
         userId: senderId,
-        createdAt: new Date().toISOString()
+        createdAt: GetTimeNow()
       }),
       set(sendersFriendListRef, {
         userId: auth.currentUser.uid,
-        createdAt: new Date().toISOString()
+        createdAt: GetTimeNow()
       }),
-      CancelFriendRequest(senderId, auth.currentUser.uid, true)
+      push(notificationRef, {
+        message: `${auth.currentUser.displayName} accepted your friend request.`,
+        createdAt: GetTimeNow(),
+      }),
+      CancelFriendRequest(senderId, auth.currentUser.uid, true) //? Removes the friend req without triggering toast
     ])
     toast.success('Added to friendlist.')
   } catch (error) {

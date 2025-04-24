@@ -4,7 +4,7 @@ import { IoChatbubbleEllipsesSharp, IoExit, IoHomeOutline, IoNotificationsOutlin
 import { LuCloudUpload } from 'react-icons/lu'
 import { getAuth, updateProfile, signOut } from 'firebase/auth';
 import { toast } from 'react-toastify';
-import { ref, update } from 'firebase/database';
+import { onValue, ref, update } from 'firebase/database';
 import { db } from '../../../../Database/firebase';
 import { ChatContext } from '../../../contexts/ChatContext';
 
@@ -13,31 +13,53 @@ const Sidebar = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const auth = getAuth();
-  const { resetChatContext } = useContext(ChatContext);
+  const { resetChatContext, unreadMessages, notificationsData, setNotificationsData } = useContext(ChatContext);
+  const [pendingNotification, setPendingNotifications] = useState(notificationsData.length); //! Temporary solution (Gimmick)
 
   const navItems = [
     {
       id: 1,
+      name: 'home',
       path: '/',
       icon: <IoHomeOutline/>
     },
     {
       id: 2,
+      name: 'chat',
       path: '/chat',
       icon: <IoChatbubbleEllipsesSharp />
     },
     {
       id: 3,
+      name: 'notifications',
       path: '/notifications',
       icon: <IoNotificationsOutline />
     },
     {
       id: 4,
+      name: 'settings',
       path: '/settings',
       icon: <IoSettingsOutline />
     },
   
   ]
+
+  // ! FOR GIMMICK NOTIFICATION DOT==================================================
+  useEffect(() => {
+    const notificationsRef = ref(db, `notifications/${auth.currentUser.uid}`)
+    const unsubscribe = onValue(notificationsRef, (snapshot) => {
+      const updatedNotifications = [];
+      if(snapshot.exists()) {
+        snapshot.forEach(notification => {
+          updatedNotifications.push(notification.val());
+        })
+      }
+      setNotificationsData(updatedNotifications);
+      setPendingNotifications(updatedNotifications.length);
+    })
+    return () => unsubscribe();
+  }, [])
+  // ! FOR GIMMICK NOTIFICATION DOT==================================================
 
   /**
    * TODO: NAVIGATE TO DIFFERENT TABS/PATH
@@ -97,8 +119,23 @@ const Sidebar = () => {
       <div className="nav w-full flex flex-col justify-center items-center">
         {
           navItems?.map(item => (
-          <div key={item.id} className={location.pathname === item.path ? 'active text-[44px] w-[90%] h-[10dvh] flex justify-center items-center rounded-2xl my-[5%]  cursor-pointer' : 'text-white text-[44px] w-[90%] h-[10dvh] flex justify-center items-center rounded-2xl my-[5%] hover:bg-white hover:opacity-60 hover:text-mainColor cursor-pointer'} onClick={() => handleNav(item.path)}>
-            {item.icon}
+          <div key={item.id} className={location.pathname === item.path ? 'active text-[44px] w-[90%] h-[10dvh] flex justify-center items-center rounded-2xl my-[5%]  cursor-pointer' : 'text-white text-[44px] w-[90%] h-[10dvh] flex justify-center items-center rounded-2xl my-[5%] hover:bg-white hover:opacity-60 hover:text-mainColor cursor-pointer'} onClick={() => {
+            handleNav(item.path);
+            setPendingNotifications(0);
+            }}>
+            <span className='relative'>
+              <span>{item.icon}</span>
+              {
+                item.name === 'chat' && unreadMessages && unreadMessages.length > 0 && <div className="absolute -bottom-2 right-0 h-5 w-5 rounded-full bg-red-800">
+                  <p className="font-semibold">{unreadMessages.length}</p>
+                </div> 
+              }
+              {
+                item.name === 'notifications' && notificationsData && pendingNotification > 0 && <div className="absolute -bottom-2 right-0 h-5 w-5 rounded-full bg-red-800 flex justify-center items-center" >
+                  <p className="font-semibold text-sm text-white">{pendingNotification}</p>
+                </div> 
+              }
+            </span>
           </div>))
         }
       </div>

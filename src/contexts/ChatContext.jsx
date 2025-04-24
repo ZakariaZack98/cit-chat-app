@@ -13,6 +13,7 @@ const ChatProvider = ({children}) => {
   const [alreadyAddedIds, setAlreadyAddedIds] = useState(initialState.alreadyAddedIds);
   const [friendRequestData, setFriendRequestData] = useState(initialState.friendRequestData);
   const [friendlistData, setFriendlistData] = useState([])
+  const [notificationsData, setNotificationsData] = useState([])
 
   const resetChatContext = () => {
     setCurrentUser(initialState.currentUser);
@@ -20,6 +21,7 @@ const ChatProvider = ({children}) => {
     setAlreadyAddedIds(initialState.alreadyAddedIds);
     setFriendRequestData(initialState.friendRequestData);
     setFriendlistData(initialState.friendlistData);
+    setNotificationsData(initialState.friendlistData);
   };
 
   return (
@@ -35,6 +37,8 @@ const ChatProvider = ({children}) => {
       friendlistData,
       setFriendlistData,
       resetChatContext, 
+      notificationsData,
+      setNotificationsData,
     }}>
       {children}
     </ChatContext.Provider>

@@ -100,8 +100,6 @@ const SignUp = () => {
     }
   };
 
-  console.log(auth.currentUser);
-
   return (
     <div className="signUpPage flex justify-center items-center">
       <div className="signUpLeft w-1/2 h-svh font-nunito flex justify-center items-center">
