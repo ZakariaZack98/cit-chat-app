@@ -5,18 +5,21 @@ const initialState = {
   userListData: [],
   alreadyAddedIds: [],
   friendRequestData: [],
+  friendlistData: [],
 };
 const ChatProvider = ({children}) => {
   const [currentUser, setCurrentUser] = useState(initialState.currentUser);
   const [userListData, setUserListData] = useState(initialState.userListData);
   const [alreadyAddedIds, setAlreadyAddedIds] = useState(initialState.alreadyAddedIds);
   const [friendRequestData, setFriendRequestData] = useState(initialState.friendRequestData);
+  const [friendlistData, setFriendlistData] = useState([])
 
   const resetChatContext = () => {
     setCurrentUser(initialState.currentUser);
     setUserListData(initialState.userListData);
     setAlreadyAddedIds(initialState.alreadyAddedIds);
     setFriendRequestData(initialState.friendRequestData);
+    setFriendlistData(initialState.friendlistData);
   };
 
   return (
@@ -29,6 +32,8 @@ const ChatProvider = ({children}) => {
       setAlreadyAddedIds,
       friendRequestData,
       setFriendRequestData,
+      friendlistData,
+      setFriendlistData,
       resetChatContext, 
     }}>
       {children}

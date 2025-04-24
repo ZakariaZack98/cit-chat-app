@@ -66,7 +66,6 @@ const SignIn = () => {
     const {email, password} = loginInfo;
     signInWithEmailAndPassword(auth, email, password)
     .then(userCred => {
-      console.log(userCred);
       toast.success(`Welcome back, ${userCred.user.displayName}`)
       navigate('/')
     })

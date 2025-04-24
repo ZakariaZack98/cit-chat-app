@@ -1,4 +1,4 @@
-import { onValue, push, ref, remove, get, set } from "firebase/database";
+import { push, ref, remove, get, set } from "firebase/database";
 import { auth, db } from "../../Database/firebase";
 import { toast } from "react-toastify";
 
@@ -73,16 +73,21 @@ export const CancelFriendRequest = async (senderId, recieverId, exception) => {
 };
 
 /**
- * TODO: CANCEL FRIEND REQUEST AND REMOVE RECORDS FROM BOTH USER'S SIDE====================================================
- * @param {senderId, recieverId} string containing the current user id and to whom request is being send
+ * TODO: ADD TO FRIENDLIST & REMOVE RECORD OF FRIEND REQUEST (FROM BOTH SIDE) ====================================================
+ * @param {senderId} string containing the user id who sent the friend request
  * @returns null
  * */ 
 export const AddToFriendlist = async senderId => {
   const friendListRef = ref(db, `friendList/${auth.currentUser.uid}/${senderId}`);
+  const sendersFriendListRef = ref(db, `friendList/${senderId}/${auth.currentUser.uid}`)
   try {
     await Promise.all([
       set(friendListRef, {
         userId: senderId,
+        createdAt: new Date().toISOString()
+      }),
+      set(sendersFriendListRef, {
+        userId: auth.currentUser.uid,
         createdAt: new Date().toISOString()
       }),
       CancelFriendRequest(senderId, auth.currentUser.uid, true)

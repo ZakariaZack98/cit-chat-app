@@ -33,8 +33,17 @@ const GroupCard = ({cardTitle, listData, withBtn}) => {
       } else return 'Add Friend'
     } else if (cardTitle === 'Friend Requests') {
       return 'Accept'
+    } else if (cardTitle === 'Friends') {
+      return 'Message'
     }
   }
+
+  const getSubText = () => {
+    if(cardTitle === 'Friends') {
+      return 'Friend since'
+    } else return ''
+  }
+
 
   return (
     <div className="p-3 rounded-xl shadow-lg h-full bg-white">
@@ -60,7 +69,7 @@ const GroupCard = ({cardTitle, listData, withBtn}) => {
                   <PersonCardWBtn 
                   avatar={item.profile_picture} 
                   name={item.userName || item.username} 
-                  subText={item.lastSeen || item.lastMsg || item.email || item.createdAt || ''}
+                  subText={`${getSubText()} ${item.lastSeen || item.lastMsg || item.createdAt || item.email || ''}`}
                   btnText={getBtnText(item.userId)} 
                   bgColorClass={getBtnText(item.userId) === 'Cancel Request' ? 'bg-red-500' : ''}
                   doubleBtn = {cardTitle === 'Friend Requests' ? true : false}
