@@ -22,6 +22,24 @@ export const FindKeyByField = (snapshot, field, value) => {
 };
 
 /**
+ * TODO: (HELPER) FETCH A USER'S LATEST INFO USING USERID =============================================================
+ * @param {userId} string containing target user's uid
+ * @return {object} containing user's latest info
+ * */
+export const FetchUser = async (userId) => {
+  const userRef = ref(db, `users/${userId}`);
+  try {
+    const userSnapshot = await get(userRef);
+    if (userSnapshot.exists()) {
+      return userSnapshot.val();
+    }
+    return null;
+  } catch (error) {
+    console.error("User data fetch failed", error.message);
+  }
+};
+
+/**
  * TODO: SEND A FRIEND REQUEST AND ADD A RECORD ON BOTH USER'S SIDE========================================================
  * @param {senderId, recieverId} string containing the current user id and to whom request is being send
  * @returns null
@@ -134,15 +152,35 @@ export const AddToFriendlist = async (senderId) => {
   }
 };
 
-export const FetchUser = async (userId) => {
-  const userRef = ref(db, `users/${userId}`);
-  try {
-    const userSnapshot = await get(userRef);
-    if (userSnapshot.exists()) {
-      return userSnapshot.val();
-    }
-    return null;
-  } catch (error) {
-    console.error("User data fetch failed", error.message);
+
+/**
+ * TODO: CREATE A GROUP CHAT REF IN DATABASE AND ADD FRIENDS TO GROUP CHAT ===========================================
+ * @param {groupDetails} object containing group name, key, participants etc
+ * @return void
+ * */ 
+export const AddToGroupChat = async (groupDetails) => {
+  if (groupDetails.participantsIds.length < 3) {
+    toast.warn('You have to add atleast 2 people to start a group conversation');
+    return;
   }
-};
+  if(groupDetails.groupName.length === 0) {
+    toast.warn('Please enter a name for the group chat');
+    return;
+  }
+  const promises = [];
+  groupDetails.participantsIds.forEach(id => {
+    const associationRef = ref(db, `userAssociations/${id}/groupChats`);
+    const userPromise = push(associationRef, {
+      groupName: groupDetails.groupName,
+      key: groupDetails.key,
+      createdAt: groupDetails.createdAt
+    })
+    promises.push(userPromise);
+  })
+  try {
+    await Promise.all(promises)
+    toast.success('Group chat created')
+  } catch(err) {
+    toast.error(`Creating group chat failed, ${err.message}`)
+  }
+}

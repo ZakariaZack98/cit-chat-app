@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import PersonCardWBtn from './PersonCardWBtn';
 import PersonCardWTxt from './PersonCardWTxt'
-import { AddToFriendlist, CancelFriendRequest, FetchUser, SendFriendRequest } from '../../../utils/utils';
+import { AddToFriendlist, AddToGroupChat, CancelFriendRequest, FetchUser, GetTimeNow, SendFriendRequest } from '../../../utils/utils';
 import { auth, db } from '../../../../Database/firebase';
 import { ChatContext } from '../../../contexts/ChatContext';
 import moment from 'moment';
@@ -14,9 +14,10 @@ import { IoIosCloseCircle } from 'react-icons/io';
 const GroupCard = ({ cardTitle, listData, withBtn }) => {
   const { alreadyAddedIds, friendlistData, setChatPartner } = useContext(ChatContext);
   const [optbtnClicked, setOptbtnClicked] = useState(false);
-  const [openCretionPopup, setGroupCreationPopup] = useState(false);
+  const [groupCreationPopup, setGroupCreationPopup] = useState(false);
   const [openFriendSelection, setOpenFriendSelection] = useState(false);
   const [selectedFriends, setSelectedFriends] = useState([]);
+  const [groupName, setGroupName] = useState('');
   const navigate = useNavigate();
 
   /**
@@ -119,24 +120,26 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
         <span className="cursor-pointer relative">
           <BsThreeDotsVertical onClick={() => {
             setOptbtnClicked(prev => !prev)
-            console.log('clicked')
           }} />
-          <div className={`absolute px-4 py-1 w-50 right-0 -bottom-9 bg-white border-2 border-blue-950 shadow-lg rounded-lg hover:bg-blue-950 hover:text-white ${optbtnClicked ? '' : 'hidden'}`}>
+          <div className={`absolute px-4 py-1 w-50 right-0 -bottom-9 bg-white border-2 border-blue-950 shadow-lg rounded-lg hover:bg-blue-950 hover:text-white ${optbtnClicked ? '' : 'hidden'}`} onClick={() => {
+            setGroupCreationPopup(true);
+            setOptbtnClicked(false);
+            }}>
             <p>{
               cardTitle === 'Group List' ? '+ Create new group' : 'Options'
             }</p>
           </div>
         </span>
         {
-          cardTitle === 'Group List' && (
+          cardTitle === 'Group List' && groupCreationPopup && (
             <div className="absolute w-130 h-80 flex flex-col justify-between p-5 bg-white rounded-xl top-1/2 left-1/2 z-20 border-2 border-[rgba(16,1,155,0.43)]" style={{ transform: 'translate(-50%, -50%)', boxShadow: '0 0 20px 20px rgba(0, 0, 0, 0.21)' }}>
               <div className="flex justify-between">
                 <h3 className="font-semibold text-xl">+ Create New Group</h3>
-                <span className='text-red-700 text-2xl cursor-pointer'><IoIosCloseCircle /></span>
+                <span className='text-red-700 text-2xl cursor-pointer' onClick={() => setGroupCreationPopup(false)}><IoIosCloseCircle /></span>
               </div>
               <div className="flex items-center gap-x-2 my-3">
                 <label htmlFor="groupName">Group Name: </label>
-                <input type="text" id='groupName' name='groupName' className='border-2 rounded w-[75%] py-1 px-2' />
+                <input type="text" id='groupName' name='groupName' value={groupName}  className='border-2 border-mainColor rounded-md w-[75%] py-1 px-2' onChange={e => setGroupName(e.target.value)}/>
               </div>
               <div className="w-30">
               <CommonBtn label={'Add Friends'} handleClick={() => setOpenFriendSelection(prev => !prev)} />
@@ -147,9 +150,20 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
                 }
               </div>
               {
-                  
-                  <div className={`w-full flex justify-end ${selectedFriends.length < 2 ? 'opacity-30 pointer-events-none' : 'opacity-100 pointer-events-auto'}`}>
-                    <p className='px-5 py-2 font-semibold bg-green-700 rounded-lg text-white cursor-pointer hover:bg-green-900'>Create Group</p>
+                  <div className={`w-full flex justify-end ${selectedFriends.length < 2 ? 'opacity-30 pointer-events-none cursor-no-drop' : 'opacity-100 pointer-events-auto cursor-pointer'}`}>
+                    <p className='px-5 py-2 font-semibold bg-green-700 rounded-lg text-white hover:bg-green-900' onClick={() => {
+                      // ? HANDLING GROUP CREATION ===
+                      const groupDetails = {
+                        groupName,
+                        key: Date.now(),
+                        createdAt: GetTimeNow(),
+                        participantsIds: [...selectedFriends.map(friend => friend.userId), auth.currentUser.uid],
+                      }
+                      AddToGroupChat(groupDetails).then(() => {
+                        setGroupCreationPopup(false);
+                        navigate('/chat')
+                      });
+                    }}>Create Group</p>
                   </div>
                 }
             </div>
