@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import PersonCardWBtn from './PersonCardWBtn';
 import PersonCardWTxt from './PersonCardWTxt'
@@ -7,10 +7,23 @@ import { auth, db } from '../../../../Database/firebase';
 import { ChatContext } from '../../../contexts/ChatContext';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
+import CommonBtn from './CommonBtn';
+import FriendSlection from '../HomeComponents/FriendSlection';
+import { IoIosCloseCircle } from 'react-icons/io';
 
 const GroupCard = ({ cardTitle, listData, withBtn }) => {
   const { alreadyAddedIds, friendlistData, setChatPartner } = useContext(ChatContext);
+  const [optbtnClicked, setOptbtnClicked] = useState(false);
+  const [openCretionPopup, setGroupCreationPopup] = useState(false);
+  const [openFriendSelection, setOpenFriendSelection] = useState(false);
+  const [selectedFriends, setSelectedFriends] = useState([]);
   const navigate = useNavigate();
+
+  /**
+   * TODO: DYNAMICALLY ASSIGINING BUTTON ACTION BASED ON THE GROUP CARD TYPE =============================
+   * @param {userId} string containing the target user's UID
+   * @return void
+   * */
   const handleBtnClick = (userId) => {
     if (cardTitle === 'User List') {
       if (alreadyAddedIds.includes(userId)) {
@@ -30,10 +43,9 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
         .then(data => {
           setChatPartner(data);
           navigate('/chat');
-      })
+        })
     }
   }
-
   const handleSecondBtnClick = (userId) => {
     if (cardTitle === 'Friend Requests') {
       CancelFriendRequest(userId, auth.currentUser.uid)
@@ -41,11 +53,16 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
     }
   }
 
-  const getBtnText = (id) => {
+  /**
+   * TODO: DYNAMICALLY ASSIGINING BUTTON LABEL BASED ON THE GROUP CARD TYPE =============================
+   * @param {userId} string containing the target user's UID
+   * @return void
+   * */
+  const getBtnText = (userId) => {
     if (cardTitle === 'User List') {
-      if (alreadyAddedIds.includes(id)) {
+      if (alreadyAddedIds.includes(userId)) {
         return 'Cancel Request'
-      } else if (friendlistData.map(friend => friend.userId).includes(id)) {
+      } else if (friendlistData.map(friend => friend.userId).includes(userId)) {
         return 'Message'
       } else return 'Add Friend'
     } else if (cardTitle === 'Friend Requests') {
@@ -57,6 +74,12 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
     } else return 'Message'
   }
 
+
+  /**
+   * TODO: DYNAMICALLY SUBTEXT BASED ON THE GROUP CARD TYPE =============================
+   * @param {item} object containing the propsdata of that groupcard
+   * @return void
+   * */
   const getSubText = (item) => {
     if (cardTitle === 'Friends') {
       return `Friend since ${moment(item.createdAt).fromNow()}`
@@ -72,6 +95,17 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
     } else return `${item.email}`
   }
 
+  /**
+   * TODO: HANDLE 3 DOTS CLICK OF THE GROUP CARD'S HERADER BASED ON THE GROUP CARD TYPE ==============
+   * @param {}
+   * @return void
+   * */
+  const handle3dotsClick = () => {
+    if (cardTitle === 'Group List') {
+
+    }
+  }
+
 
   return (
     <div className="p-3 rounded-xl shadow-lg h-full bg-white">
@@ -82,9 +116,48 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
             <p className='text-sm font-semibold text-white'>{listData.length}</p>
           </div>
         </div>
-        <span className="cursor-pointer">
-          <BsThreeDotsVertical />
+        <span className="cursor-pointer relative">
+          <BsThreeDotsVertical onClick={() => {
+            setOptbtnClicked(prev => !prev)
+            console.log('clicked')
+          }} />
+          <div className={`absolute px-4 py-1 w-50 right-0 -bottom-9 bg-white border-2 border-blue-950 shadow-lg rounded-lg hover:bg-blue-950 hover:text-white ${optbtnClicked ? '' : 'hidden'}`}>
+            <p>{
+              cardTitle === 'Group List' ? '+ Create new group' : 'Options'
+            }</p>
+          </div>
         </span>
+        {
+          cardTitle === 'Group List' && (
+            <div className="absolute w-130 h-80 flex flex-col justify-between p-5 bg-white rounded-xl top-1/2 left-1/2 z-20 border-2 border-[rgba(16,1,155,0.43)]" style={{ transform: 'translate(-50%, -50%)', boxShadow: '0 0 20px 20px rgba(0, 0, 0, 0.21)' }}>
+              <div className="flex justify-between">
+                <h3 className="font-semibold text-xl">+ Create New Group</h3>
+                <span className='text-red-700 text-2xl cursor-pointer'><IoIosCloseCircle /></span>
+              </div>
+              <div className="flex items-center gap-x-2 my-3">
+                <label htmlFor="groupName">Group Name: </label>
+                <input type="text" id='groupName' name='groupName' className='border-2 rounded w-[75%] py-1 px-2' />
+              </div>
+              <div className="w-30">
+              <CommonBtn label={'Add Friends'} handleClick={() => setOpenFriendSelection(prev => !prev)} />
+              </div>
+              <div className="flex flex-wrap justify-start items-start gap-x-2 relative min-h-[40%] ">
+                {
+                  selectedFriends?.map(friend => <p key={friend.userId} className='px-4 py-1 my-3 h-8 bg-[rgb(218,218,218)] text-black rounded-2xl'>{friend.userName}</p>)
+                }
+              </div>
+              {
+                  
+                  <div className={`w-full flex justify-end ${selectedFriends.length < 2 ? 'opacity-30 pointer-events-none' : 'opacity-100 pointer-events-auto'}`}>
+                    <p className='px-5 py-2 font-semibold bg-green-700 rounded-lg text-white cursor-pointer hover:bg-green-900'>Create Group</p>
+                  </div>
+                }
+            </div>
+          )
+        }
+        {
+          openFriendSelection && <FriendSlection selectedFriends={selectedFriends} setSelectedFriends={setSelectedFriends} setOpenFriendSelection={setOpenFriendSelection} />
+        }
       </div>
       <div className="groups h-[90%] overflow-y-scroll" style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
         {
