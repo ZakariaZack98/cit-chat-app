@@ -189,15 +189,16 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
         {
           withBtn ? (
             listData?.map((item, idx) => {
-              if (item?.groupName) { //specialized rendering for group chat format data
+              if (item?.groupName) {
+                //? specialized rendering for group chat format data
                 return (
                   <div
                     key={item.key}
                     className={`${idx < listData.length - 1 ? "border-b-gray-300 border-b-[1px]" : ""} py-2 cursor-pointer`}>
                     <PersonCardWBtn
                       avatar={'https://cdn-icons-png.flaticon.com/512/2043/2043173.png'}
-                      name={item.groupName || 'Name missing'}
-                      subText={`${getSubText(item)}` || ''}
+                      name={item?.groupName || 'Name missing'}
+                      subText={item?.lastMessage?.text || ''}
                       btnText={'Message'}
                       handleBtnClick={() => handleBtnClick(item.key)} />
                   </div>
@@ -208,14 +209,14 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
                   key={item.userId || item.key || idx}
                   className={`${idx < listData.length - 1 ? "border-b-gray-300 border-b-[1px]" : ""} py-2 cursor-pointer`}>
                   <PersonCardWBtn
-                    avatar={item.profile_picture || 'https://cdn-icons-png.flaticon.com/512/2043/2043173.png'}
-                    name={item.userName || item.username || item.groupName || 'Name missing'}
+                    avatar={item?.profile_picture || 'https://cdn-icons-png.flaticon.com/512/2043/2043173.png'}
+                    name={item?.userName || item?.username || item?.groupName || 'Name missing'}
                     subText={`${getSubText(item)}` || ''}
-                    btnText={getBtnText(item.userId)}
-                    bgColorClass={getBtnText(item.userId) === 'Cancel Request' ? 'bg-red-500' : ''}
+                    btnText={getBtnText(item?.userId)}
+                    bgColorClass={getBtnText(item?.userId) === 'Cancel Request' ? 'bg-red-500' : ''}
                     doubleBtn={cardTitle === 'Friend Requests' ? true : false}
-                    secondBtnClickHandler={() => handleSecondBtnClick(item.userId)}
-                    handleBtnClick={() => handleBtnClick(item.userId)} />
+                    secondBtnClickHandler={() => handleSecondBtnClick(item?.userId)}
+                    handleBtnClick={() => handleBtnClick(item?.userId)} />
                 </div>
               );
             })

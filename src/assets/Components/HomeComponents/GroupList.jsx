@@ -1,25 +1,34 @@
 import React, { useContext, useEffect } from "react";
 import GroupCard from "../CommonComponents/GroupCard";
 import SearchBar from "../CommonComponents/SearchBar";
-import { onValue, ref } from "firebase/database";
+import { get, onValue, ref } from "firebase/database";
 import { auth, db } from "../../../../Database/firebase";
 import { ChatContext } from "../../../contexts/ChatContext";
 
 const GroupList = () => {
   const {groupListData, setGroupListData} = useContext(ChatContext);
   /**
-     * TODO: FETCH ALL USER IDS THAT CURRENT USER SEND FRIEND REQUESTS INSIDE AN ARRAY FROM DATABASE===
-     * @param {friendRequestRef} object 
-     * @returns {array} containing id's that been sent friend request to
+     * TODO: FETCH ALL GROUPS DATA USER HAVE JOINED INSIDE AN ARRAY FROM DATABASE ============================
+     * @param {userJoinedGroupChatsRef} object refernce to the group association of the user
+     * @returns {array} containing group data user have joined
      * */
     useEffect(() => {
-      const groupChatsRef = ref(db, `userAssociations/${auth.currentUser.uid}/groupChats`);
-      const unsubscribe = onValue(groupChatsRef, (snapshot) => {
-        const updatedGroupChatData = [];
+      const userJoinedGroupChatsRef = ref(db, `userAssociations/${auth.currentUser.uid}/groupChats`);
+      
+      const unsubscribe = onValue(userJoinedGroupChatsRef, async (snapshot) => {
+        const promises = [];
         snapshot.forEach((group) => {
-            updatedGroupChatData.push(group.val());
+          const key = group.val().key;
+          const groupsRef = ref(db, `groups/${key}`)
+          promises.push(get(groupsRef).then(groupSnapshot => {
+            if(groupSnapshot.exists()) {
+              return groupSnapshot.val();
+            }
+          })); 
         });
-        setGroupListData(updatedGroupChatData);
+        const updatedData = await Promise.all(promises);
+        setGroupListData(updatedData)
+        console.log(updatedData);
       });
   
       return () => unsubscribe();

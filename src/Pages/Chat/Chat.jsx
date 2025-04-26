@@ -7,7 +7,7 @@ import { MdPhoto } from "react-icons/md";
 import ChatFeed from "../../assets/Components/ChatComponents/ChatFeed";
 import { ChatContext } from "../../contexts/ChatContext";
 import Picker from "@emoji-mart/react";
-import { onValue, push, ref } from "firebase/database";
+import { onValue, push, ref, set } from "firebase/database";
 import { auth, db } from "../../../Database/firebase";
 import { GetTimeNow } from "../../utils/utils";
 
@@ -57,7 +57,12 @@ const Chat = () => {
           }
 
           if (result.event === "success") {
-            sendMessage(auth.currentUser.uid, chatPartner.userId, "", result.info.secure_url);
+            if(chatPartner?.userId) {
+              sendMessage(auth.currentUser.uid, chatPartner.userId, "", result.info.secure_url);
+            }
+            if(groupChat?.key) {
+              sendMessage(auth.currentUser.uid, groupChat.key, "", result.info.secure_url);
+            }
             setTimeout(() => {
               setIsUploading(false);
               setUploadError(null);
@@ -134,6 +139,7 @@ const Chat = () => {
     }
     if (groupChat?.key) {
       const groupChatRef = ref(db, `groupChats/${groupChat.key}`);
+      const lastMessageRef = ref(db, `groups/${groupChat.key}/lastMessage`)
       try {
         await push(groupChatRef, {
           text,
@@ -142,8 +148,11 @@ const Chat = () => {
           imageUrl,
           createdAt: GetTimeNow(),
         });
+        await set(lastMessageRef, {
+          text
+        })
       } catch (error) {
-        console.error("Error sending message", error.message);
+        console.error("Error sending message: ", error.message);
       }
     }
   };
@@ -175,7 +184,7 @@ const Chat = () => {
         <div
           className="chatFeed h-[80%] overflow-scroll flex justify-center items-center"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-          <ChatFeed chatData={chatFeedData} isGroupChat={groupChat?.uid ? true : false}/>
+          <ChatFeed chatData={chatFeedData} isGroupChat={groupChat?.key ? true : false}/>
         </div>
         <div className="inputPart flex items-center gap-x-2 mt-4 pt-5 pb-1 border-t-gray-300 border-t-[1px] relative">
           {uploadError && (
