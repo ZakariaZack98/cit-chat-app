@@ -20,6 +20,8 @@ const Chat = () => {
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
   const [uploadError, setUploadError] = useState(null);
   const uploadWidget = useRef(null);
+  const lastUploadedUrl = useRef(null);
+  
 
   const addEmoji = (emoji) => {
     setInput(input + (emoji.native || emoji.unified || ""));
@@ -37,7 +39,10 @@ const Chat = () => {
 
     const initializeWidget = () => {
       if (!window.cloudinary) return;
-
+    
+      let isHandlingUpload = false;
+      let lastProcessedUrl = null;
+    
       uploadWidget.current = window.cloudinary.createUploadWidget(
         {
           cloudName: "dubcsgtfg",
@@ -53,24 +58,42 @@ const Chat = () => {
             console.error("Upload error:", error);
             setUploadError("Upload failed. Please try again.");
             setIsUploading(false);
+            isHandlingUpload = false;
             return;
           }
-
+    
           if (result.event === "success") {
-            if(chatPartner?.userId) {
-              sendMessage(auth.currentUser.uid, chatPartner.userId, "", result.info.secure_url);
-            }
-            if(groupChat?.key) {
-              sendMessage(auth.currentUser.uid, groupChat.key, "", result.info.secure_url);
-            }
-            setTimeout(() => {
+            // Skip if already handling or same URL
+            if (lastUploadedUrl.current === result.info.secure_url) {
               setIsUploading(false);
-              setUploadError(null);
-            }, 500); // Small delay to prevent rapid successive uploads
+              return;
+            }
+            
+            lastUploadedUrl.current = result.info.secure_url;
+    
+            isHandlingUpload = true;
+            lastProcessedUrl = result.info.secure_url;
+    
+            const sendMessagePromise = chatPartner?.userId
+              ? sendMessage(auth.currentUser.uid, chatPartner.userId, "", result.info.secure_url)
+              : groupChat?.key
+              ? sendMessage(auth.currentUser.uid, groupChat.key, "", result.info.secure_url)
+              : Promise.resolve();
+    
+            sendMessagePromise
+              .catch(err => console.error("Message send error:", err))
+              .finally(() => {
+                setTimeout(() => {
+                  isHandlingUpload = false;
+                  setIsUploading(false);
+                  setUploadError(null);
+                }, 500);
+              });
           }
-
+    
           if (result.event === "close") {
             setIsUploading(false);
+            isHandlingUpload = false;
           }
         }
       );

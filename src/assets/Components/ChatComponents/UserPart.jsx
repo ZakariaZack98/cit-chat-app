@@ -1,8 +1,8 @@
-import { get, push, ref, set } from "firebase/database";
+import { get, ref, set } from "firebase/database";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { BsThreeDotsVertical } from "react-icons/bs";
 import { FaUpload } from "react-icons/fa";
-import { db } from "../../../../Database/firebase";
+import { auth, db } from "../../../../Database/firebase";
 import { ChatContext } from "../../../contexts/ChatContext";
 
 const UserPart = ({ avatar, name, isActive, lastSeen }) => {
@@ -14,10 +14,10 @@ const UserPart = ({ avatar, name, isActive, lastSeen }) => {
   const [participantsName, setParticipantsName] = useState([]);
 
   useEffect(() => {
-    if(chatPartner?.userId) return;
+    if(chatPartner?.userId || !auth.currentUser?.uid) return;
     const promiseArr = []
     const participantsIds = groupChat?.participantsIds;
-    participantsIds.forEach(id => {
+    participantsIds?.forEach(id => {
       const userRef = ref(db, `users/${id}`)
       const userPromise = get(userRef).then(userSnapshot => {
         if(userSnapshot.exists()) {
@@ -27,7 +27,6 @@ const UserPart = ({ avatar, name, isActive, lastSeen }) => {
       promiseArr.push(userPromise);
     })
     Promise.all(promiseArr).then(data => {
-      console.log('names: ', data);
       setParticipantsName(data);
     })
   }, [groupChat])

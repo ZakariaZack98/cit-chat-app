@@ -28,7 +28,6 @@ const GroupList = () => {
         });
         const updatedData = await Promise.all(promises);
         setGroupListData(updatedData)
-        console.log(updatedData);
       });
   
       return () => unsubscribe();
