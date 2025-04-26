@@ -196,7 +196,7 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
                     key={item.key}
                     className={`${idx < listData.length - 1 ? "border-b-gray-300 border-b-[1px]" : ""} py-2 cursor-pointer`}>
                     <PersonCardWBtn
-                      avatar={'https://cdn-icons-png.flaticon.com/512/2043/2043173.png'}
+                      avatar={item?.profile_picture || 'https://cdn-icons-png.flaticon.com/512/2043/2043173.png'}
                       name={item?.groupName || 'Name missing'}
                       subText={item?.lastMessage?.text || ''}
                       btnText={'Message'}

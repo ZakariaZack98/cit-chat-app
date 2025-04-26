@@ -176,7 +176,7 @@ const Chat = () => {
       </div>
       <div className="right w-[70%] h-full shadow-xl rounded-xl px-7 py-4 flex flex-col justify-between bg-white">
         <UserPart
-          avatar={chatPartner?.profile_picture || 'https://cdn-icons-png.flaticon.com/512/2043/2043173.png'}
+          avatar={chatPartner?.profile_picture || groupChat?.profile_picture || 'https://cdn-icons-png.flaticon.com/512/2043/2043173.png'}
           name={chatPartner?.userName || groupChat?.groupName || 'Name not found'}
           isActive={chatPartner?.isActive || true}
           lastSeen={chatPartner?.lastSeen || [1,2,3] || "now"}

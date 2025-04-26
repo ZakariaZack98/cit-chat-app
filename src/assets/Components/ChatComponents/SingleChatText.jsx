@@ -36,7 +36,7 @@ const SingleChatText = ({ recieved, textContent, deliveryTime, imageUrl, isGroup
     </div>
     </div>
   ) : (
-    <div className="w-full flex flex-col gap-y-1 items-end">
+    <div className="w-full flex flex-col items-end">
       <span className={`py-2 px-3 rounded-md bg-mainColor text-white  w-fit max-w-[50%] text-end  ${textContent === '' || textContent === null ? 'hidden' : ''}`}>
         {textContent || null}
       </span>
@@ -47,7 +47,7 @@ const SingleChatText = ({ recieved, textContent, deliveryTime, imageUrl, isGroup
           </picture>
         )
       }
-      <span className="text-sm opacity-50">{deliveryTime}</span>
+      <span className="text-sm opacity-50 -translate-y-1">{deliveryTime}</span>
     </div>
   );
 };
