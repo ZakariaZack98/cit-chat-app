@@ -14,7 +14,7 @@ import { GetTimeNow } from "../../utils/utils";
 const getConversationKey = (id1, id2) => [id1, id2].sort().join("_");
 
 const Chat = () => {
-  const { chatPartner, chatFeedData, setChatFeedData } = useContext(ChatContext);
+  const { chatPartner, groupChat, chatFeedData, setChatFeedData } = useContext(ChatContext);
   const [input, setInput] = useState("");
   const [isUploading, setIsUploading] = useState(false);
   const [showEmojiPicker, setShowEmojiPicker] = useState(false);
@@ -82,43 +82,74 @@ const Chat = () => {
         uploadWidget.current.close();
       }
     };
-  }, [chatPartner]);
+  }, [chatPartner, groupChat]);
 
   // Fetch chat feed
   useEffect(() => {
-    if (!auth.currentUser?.uid || !chatPartner?.userId) return;
-    const conversationKey = getConversationKey(auth.currentUser.uid, chatPartner.userId);
-    const conversationRef = ref(db, `conversations/${conversationKey}`);
-    const unsubscribe = onValue(conversationRef, (snapshot) => {
-      const convData = [];
-      snapshot.forEach((text) => {
-        convData.push(text.val());
+    // if (!auth.currentUser?.uid || !chatPartner?.userId) return;
+    if (!chatPartner?.userId && !groupChat?.key) return;
+    if (chatPartner?.userId) {
+      const conversationKey = getConversationKey(auth.currentUser.uid, chatPartner.userId);
+      const conversationRef = ref(db, `conversations/${conversationKey}`);
+      const unsubscribe = onValue(conversationRef, (snapshot) => {
+        const convData = [];
+        snapshot.forEach((text) => {
+          convData.push(text.val());
+        });
+        setChatFeedData(convData);
       });
-      setChatFeedData(convData);
-    });
 
-    return () => unsubscribe();
+      return () => unsubscribe();
+    }
+    if (groupChat?.key) {
+      const groupChatRef = ref(db, `groupChats/${groupChat.key}`);
+      const unsubscribe = onValue(groupChatRef, (snapshot) => {
+        const convData = [];
+        snapshot.forEach((text) => {
+          convData.push(text.val())
+        })
+        setChatFeedData(convData);
+      });
+
+      return () => unsubscribe();
+    }
   }, [auth.currentUser?.uid, chatPartner?.userId]);
 
   const sendMessage = async (senderId, recieverId, text, imageUrl = "") => {
-    const conversationKey = getConversationKey(senderId, recieverId);
-    const conversationsRef = ref(db, `conversations/${conversationKey}`);
-    try {
-      await push(conversationsRef, {
-        text,
-        senderId,
-        recieverId,
-        imageUrl,
-        createdAt: GetTimeNow(),
-      });
-    } catch (error) {
-      console.error("Error sending message", error.message);
+    if (!chatPartner?.userId && !groupChat?.key) return;
+    if (chatPartner?.userId) {
+      const conversationKey = getConversationKey(senderId, recieverId);
+      const conversationsRef = ref(db, `conversations/${conversationKey}`);
+      try {
+        await push(conversationsRef, {
+          text,
+          senderId,
+          recieverId,
+          imageUrl,
+          createdAt: GetTimeNow(),
+        });
+      } catch (error) {
+        console.error("Error sending message", error.message);
+      }
+    }
+    if (groupChat?.key) {
+      const groupChatRef = ref(db, `groupChats/${groupChat.key}`);
+      try {
+        await push(groupChatRef, {
+          text,
+          senderId,
+          recieverId,
+          imageUrl,
+          createdAt: GetTimeNow(),
+        });
+      } catch (error) {
+        console.error("Error sending message", error.message);
+      }
     }
   };
 
   const handleUpload = () => {
     if (!uploadWidget.current || isUploading) return;
-    
     setIsUploading(true);
     setUploadError(null);
     uploadWidget.current.open();
@@ -136,15 +167,15 @@ const Chat = () => {
       </div>
       <div className="right w-[70%] h-full shadow-xl rounded-xl px-7 py-4 flex flex-col justify-between bg-white">
         <UserPart
-          avatar={chatPartner?.profile_picture}
-          name={chatPartner?.userName}
+          avatar={chatPartner?.profile_picture || 'https://cdn-icons-png.flaticon.com/512/2043/2043173.png'}
+          name={chatPartner?.userName || groupChat?.groupName || 'Name not found'}
           isActive={chatPartner?.isActive || true}
-          lastSeen={chatPartner?.lastSeen || "now"}
+          lastSeen={chatPartner?.lastSeen || [1,2,3] || "now"}
         />
         <div
           className="chatFeed h-[80%] overflow-scroll flex justify-center items-center"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}>
-          <ChatFeed chatData={chatFeedData} />
+          <ChatFeed chatData={chatFeedData} isGroupChat={groupChat?.uid ? true : false}/>
         </div>
         <div className="inputPart flex items-center gap-x-2 mt-4 pt-5 pb-1 border-t-gray-300 border-t-[1px] relative">
           {uploadError && (
@@ -161,8 +192,14 @@ const Chat = () => {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => {
                 if (e.key === "Enter") {
-                  sendMessage(auth.currentUser.uid, chatPartner.userId, input);
-                  setInput("");
+                  if (chatPartner?.userId) {
+                    sendMessage(auth.currentUser.uid, chatPartner.userId, input);
+                    setInput("");
+                  }
+                  if(groupChat?.key) {
+                    sendMessage(auth.currentUser.uid, groupChat.key, input);
+                    setInput("");
+                  }
                 }
               }}
             />
@@ -175,16 +212,22 @@ const Chat = () => {
                 <Picker onEmojiSelect={addEmoji} />
               </div>
             )}
-            <MdPhoto 
-              className={`text-black ${isUploading ? "opacity-25 animate-pulse" : "opacity-50"} cursor-pointer`} 
-              onClick={isUploading ? undefined : handleUpload} 
+            <MdPhoto
+              className={`text-black ${isUploading ? "opacity-25 animate-pulse" : "opacity-50"} cursor-pointer`}
+              onClick={isUploading ? undefined : handleUpload}
             />
           </div>
           <button
             className="w-10 h-9 bg-mainColor rounded-lg flex items-center justify-center text-white cursor-pointer"
             onClick={() => {
-              sendMessage(auth.currentUser.uid, chatPartner.userId, input);
-              setInput("");
+              if (chatPartner?.userId) {
+                sendMessage(auth.currentUser.uid, chatPartner.userId, input);
+                setInput("");
+              }
+              if(groupChat?.key) {
+                sendMessage(auth.currentUser.uid, groupChat.key, input);
+                setInput("");
+              }
             }}>
             <FaPaperPlane />
           </button>

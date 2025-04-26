@@ -14,7 +14,7 @@ const Sidebar = () => {
   const location = useLocation();
   const auth = getAuth();
   const { resetChatContext, unreadMessages, notificationsData, setNotificationsData, friendlistData, setChatPartner } = useContext(ChatContext);
-  const [pendingNotification, setPendingNotifications] = useState(notificationsData.length); //! Temporary solution (Gimmick)
+  const [pendingNotification, setPendingNotifications] = useState(0); //! Temporary solution (Gimmick) notificationsData.length
   const hasSetPartner = useRef(false);
 
   useEffect(() => {
@@ -53,20 +53,20 @@ const Sidebar = () => {
   ]
 
   // ! FOR GIMMICK NOTIFICATION DOT==================================================
-  useEffect(() => {
-    const notificationsRef = ref(db, `notifications/${auth.currentUser.uid}`)
-    const unsubscribe = onValue(notificationsRef, (snapshot) => {
-      const updatedNotifications = [];
-      if(snapshot.exists()) {
-        snapshot.forEach(notification => {
-          updatedNotifications.push(notification.val());
-        })
-      }
-      setNotificationsData(updatedNotifications);
-      setPendingNotifications(updatedNotifications.length);
-    })
-    return () => unsubscribe();
-  }, [])
+  // useEffect(() => {
+  //   const notificationsRef = ref(db, `notifications/${auth.currentUser.uid}`)
+  //   const unsubscribe = onValue(notificationsRef, (snapshot) => {
+  //     const updatedNotifications = [];
+  //     if(snapshot.exists()) {
+  //       snapshot.forEach(notification => {
+  //         updatedNotifications.push(notification.val());
+  //       })
+  //     }
+  //     setNotificationsData(updatedNotifications);
+  //     setPendingNotifications(updatedNotifications.length);
+  //   })
+  //   return () => unsubscribe();
+  // }, [])
   // ! FOR GIMMICK NOTIFICATION DOT==================================================
 
   /**

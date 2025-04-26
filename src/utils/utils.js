@@ -38,6 +38,18 @@ export const FetchUser = async (userId) => {
     console.error("User data fetch failed", error.message);
   }
 };
+export const FetchGroupData = async (key) => {
+  const groupRef = ref(db, `groups/${key}`);
+  try {
+    const groupSnapshot = await get(groupRef);
+    if (groupSnapshot.exists()) {
+      return groupSnapshot.val();
+    }
+    return null;
+  } catch (error) {
+    console.error("Group data fetch failed", error.message);
+  }
+};
 
 /**
  * TODO: SEND A FRIEND REQUEST AND ADD A RECORD ON BOTH USER'S SIDE========================================================
@@ -167,7 +179,8 @@ export const AddToGroupChat = async (groupDetails) => {
     toast.warn('Please enter a name for the group chat');
     return;
   }
-  const promises = [];
+  const groupChatRef = ref(db, `groups/${groupDetails.key}`)
+  const promises = [set(groupChatRef, groupDetails)];
   groupDetails.participantsIds.forEach(id => {
     const associationRef = ref(db, `userAssociations/${id}/groupChats`);
     const userPromise = push(associationRef, {

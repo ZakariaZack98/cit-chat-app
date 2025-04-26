@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react'
 import { BsThreeDotsVertical } from 'react-icons/bs';
 import PersonCardWBtn from './PersonCardWBtn';
 import PersonCardWTxt from './PersonCardWTxt'
-import { AddToFriendlist, AddToGroupChat, CancelFriendRequest, FetchUser, GetTimeNow, SendFriendRequest } from '../../../utils/utils';
+import { AddToFriendlist, AddToGroupChat, CancelFriendRequest, FetchGroupData, FetchUser, GetTimeNow, SendFriendRequest } from '../../../utils/utils';
 import { auth, db } from '../../../../Database/firebase';
 import { ChatContext } from '../../../contexts/ChatContext';
 import moment from 'moment';
@@ -12,7 +12,7 @@ import FriendSlection from '../HomeComponents/FriendSlection';
 import { IoIosCloseCircle } from 'react-icons/io';
 
 const GroupCard = ({ cardTitle, listData, withBtn }) => {
-  const { alreadyAddedIds, friendlistData, setChatPartner } = useContext(ChatContext);
+  const { alreadyAddedIds, friendlistData, setChatPartner, groupChat, setGroupChat } = useContext(ChatContext);
   const [optbtnClicked, setOptbtnClicked] = useState(false);
   const [groupCreationPopup, setGroupCreationPopup] = useState(false);
   const [openFriendSelection, setOpenFriendSelection] = useState(false);
@@ -26,6 +26,14 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
    * @return void
    * */
   const handleBtnClick = (userId) => {
+    if (typeof userId === 'number') { //? SPECIAL HANDLING FOR GROUP ID
+      FetchGroupData(userId)
+      .then(data => {
+        setGroupChat(data);
+        setChatPartner(null);
+        navigate('/chat');
+      })
+    }
     if (cardTitle === 'User List') {
       if (alreadyAddedIds.includes(userId)) {
         CancelFriendRequest(auth.currentUser.uid, userId)
@@ -33,6 +41,7 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
         FetchUser(userId)
           .then(data => {
             setChatPartner(data);
+            setGroupChat(null);
             navigate('/chat');
           })
         console.log('Proceed to send message to that person')
@@ -43,6 +52,7 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
       FetchUser(userId)
         .then(data => {
           setChatPartner(data);
+          setGroupChat(null);
           navigate('/chat');
         })
     }
@@ -93,7 +103,7 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
       } else {
         return `${item.email}`
       }
-    } else return `${item.email}`
+    } else return `${item.email || item.lastText || 'Last message goes here'}`
   }
 
   /**
@@ -124,7 +134,7 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
           <div className={`absolute px-4 py-1 w-50 right-0 -bottom-9 bg-white border-2 border-blue-950 shadow-lg rounded-lg hover:bg-blue-950 hover:text-white ${optbtnClicked ? '' : 'hidden'}`} onClick={() => {
             setGroupCreationPopup(true);
             setOptbtnClicked(false);
-            }}>
+          }}>
             <p>{
               cardTitle === 'Group List' ? '+ Create new group' : 'Options'
             }</p>
@@ -139,10 +149,10 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
               </div>
               <div className="flex items-center gap-x-2 my-3">
                 <label htmlFor="groupName">Group Name: </label>
-                <input type="text" id='groupName' name='groupName' value={groupName}  className='border-2 border-mainColor rounded-md w-[75%] py-1 px-2' onChange={e => setGroupName(e.target.value)}/>
+                <input type="text" id='groupName' name='groupName' value={groupName} className='border-2 border-mainColor rounded-md w-[75%] py-1 px-2' onChange={e => setGroupName(e.target.value)} />
               </div>
               <div className="w-30">
-              <CommonBtn label={'Add Friends'} handleClick={() => setOpenFriendSelection(prev => !prev)} />
+                <CommonBtn label={'Add Friends'} handleClick={() => setOpenFriendSelection(prev => !prev)} />
               </div>
               <div className="flex flex-wrap justify-start items-start gap-x-2 relative min-h-[40%] ">
                 {
@@ -150,22 +160,24 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
                 }
               </div>
               {
-                  <div className={`w-full flex justify-end ${selectedFriends.length < 2 ? 'opacity-30 pointer-events-none cursor-no-drop' : 'opacity-100 pointer-events-auto cursor-pointer'}`}>
-                    <p className='px-5 py-2 font-semibold bg-green-700 rounded-lg text-white hover:bg-green-900' onClick={() => {
-                      // ? HANDLING GROUP CREATION ===
-                      const groupDetails = {
-                        groupName,
-                        key: Date.now(),
-                        createdAt: GetTimeNow(),
-                        participantsIds: [...selectedFriends.map(friend => friend.userId), auth.currentUser.uid],
-                      }
-                      AddToGroupChat(groupDetails).then(() => {
-                        setGroupCreationPopup(false);
-                        navigate('/chat')
-                      });
-                    }}>Create Group</p>
-                  </div>
-                }
+                <div className={`w-full flex justify-end ${selectedFriends.length < 2 ? 'opacity-30 pointer-events-none cursor-no-drop' : 'opacity-100 pointer-events-auto cursor-pointer'}`}>
+                  <p className='px-5 py-2 font-semibold bg-green-700 rounded-lg text-white hover:bg-green-900' onClick={() => {
+                    // ? HANDLING GROUP CREATION ===
+                    const groupDetails = {
+                      groupName,
+                      key: Date.now(),
+                      createdAt: GetTimeNow(),
+                      participantsIds: [...selectedFriends.map(friend => friend.userId), auth.currentUser.uid],
+                    }
+                    AddToGroupChat(groupDetails).then(() => {
+                      setGroupCreationPopup(false);
+                      setGroupChat(groupDetails);
+                      setChatPartner(null);
+                      navigate('/chat')
+                    });
+                  }}>Create Group</p>
+                </div>
+              }
             </div>
           )
         }
@@ -177,13 +189,27 @@ const GroupCard = ({ cardTitle, listData, withBtn }) => {
         {
           withBtn ? (
             listData?.map((item, idx) => {
-              return (
+              if (item?.groupName) { //specialized rendering for group chat format data
+                return (
+                  <div
+                    key={item.key}
+                    className={`${idx < listData.length - 1 ? "border-b-gray-300 border-b-[1px]" : ""} py-2 cursor-pointer`}>
+                    <PersonCardWBtn
+                      avatar={'https://cdn-icons-png.flaticon.com/512/2043/2043173.png'}
+                      name={item.groupName || 'Name missing'}
+                      subText={`${getSubText(item)}` || ''}
+                      btnText={'Message'}
+                      handleBtnClick={() => handleBtnClick(item.key)} />
+                  </div>
+                );
+              }
+              else return (
                 <div
-                  key={item.userId}
+                  key={item.userId || item.key || idx}
                   className={`${idx < listData.length - 1 ? "border-b-gray-300 border-b-[1px]" : ""} py-2 cursor-pointer`}>
                   <PersonCardWBtn
-                    avatar={item.profile_picture}
-                    name={item.userName || item.username}
+                    avatar={item.profile_picture || 'https://cdn-icons-png.flaticon.com/512/2043/2043173.png'}
+                    name={item.userName || item.username || item.groupName || 'Name missing'}
                     subText={`${getSubText(item)}` || ''}
                     btnText={getBtnText(item.userId)}
                     bgColorClass={getBtnText(item.userId) === 'Cancel Request' ? 'bg-red-500' : ''}

@@ -3,7 +3,7 @@ import SingleChatText from './SingleChatText';
 import { auth } from '../../../../Database/firebase';
 import moment from 'moment';
 
-const ChatFeed = ({ chatData }) => {
+const ChatFeed = ({ chatData, isGroupChat }) => {
   const bottomRef = useRef(null);
 
   useEffect(() => {
@@ -28,6 +28,8 @@ const ChatFeed = ({ chatData }) => {
                   textContent={message.text} 
                   deliveryTime={moment(message.createdAt).fromNow()} 
                   imageUrl={message.imageUrl || null}
+                  isGroupChat={isGroupChat}
+                  senderId = {message.senderId}
                 />
               );
             })}
